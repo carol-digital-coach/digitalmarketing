@@ -2,7 +2,23 @@
 import { ScrollFadeIn } from "@/app/components/scrollanimation";
 import { colors } from "@/lib/colors";
 import { Zap, HardHat, Cpu, Briefcase, Target, Feather, Megaphone, Search, Users, MessageSquare, CheckCircle } from "lucide-react"
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { RiWhatsappFill } from "react-icons/ri";
+import { FaPhoneVolume } from "react-icons/fa6";
 
+
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function ServicesPage() {
     const serviceCategories = [
@@ -80,10 +96,10 @@ export default function ServicesPage() {
                     <h1 className="uppercase tracking-widest text-2xl font-bold mb-3 block">
                         Services
                     </h1>
-                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold max-w-5xl mb-12 leading-tight">
+                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold max-w-5xl mb-12 leading-tight overflow-hidden">
                         Empowering Entrepreneurs & SMEs with <span style={{ color: colors.pop }}>Practical Digital Strategies.</span>
                     </h2>
-                    <p className="text-lg mb-16 max-w-4xl text-white">
+                    <p className="text-lg mb-16 max-w-4xl text-white overflow-hidden">
                         Helping entrepreneurs and SMEs grow online through practical digital strategies, high-impact content, targeted SEO, effective paid ads, and personalized coaching.
                     </p>
                 </ScrollFadeIn>
@@ -91,14 +107,14 @@ export default function ServicesPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 overflow-hidden">
                     {serviceCategories.map((category, index) => (
                         <ScrollFadeIn key={index} delay={index * 150} threshold={0.1}>
-                            <div className="p-8 rounded-xl h-full flex flex-col transition-all duration-500 shadow-xl cursor-pointer"
-                                style={{ backgroundColor: colors.deep, border: `2px solid ${colors.soft}` }}
+                            <div className="p-8 rounded-md h-full flex flex-col transition-all duration-500 shadow-xl cursor-pointer"
+                                style={{ backgroundColor: colors.deep, border: `2px solid ${colors.deep}` }}
                                 onMouseOver={e => {
                                     e.currentTarget.style.borderColor = colors.pop;
-                                    e.currentTarget.style.boxShadow = `0 10px 15px -3px ${colors.pop}50, 0 4px 6px -2px ${colors.pop}50`; // Subtle pink shadow
+                                    e.currentTarget.style.boxShadow = `0 10px 15px -3px ${colors.pop}50, 0 4px 6px -2px ${colors.pop}50`;
                                 }}
                                 onMouseOut={e => {
-                                    e.currentTarget.style.borderColor = colors.soft;
+                                    e.currentTarget.style.borderColor = colors.deep;
                                     e.currentTarget.style.boxShadow = 'none';
                                 }}
                             >
@@ -108,7 +124,7 @@ export default function ServicesPage() {
 
 
                                 <div className="space-y-3 mt-auto mb-6">
-                                    <h4 className="text-sm uppercase font-semibold tracking-wider">Key Offerings:</h4>
+                                    <h4 className="text-sm uppercase font-semibold tracking-wider">What you get from this package:</h4>
                                     {category.items.map((item, i) => (
                                         <div key={i} className="flex items-start text-sm">
                                             <CheckCircle size={16} className="mr-3 mt-0.5 flex-shrink-0" />
@@ -116,12 +132,93 @@ export default function ServicesPage() {
                                         </div>
                                     ))}
                                 </div>
-                                <button
-                                    className="mt-auto w-fulltext-white text-lg font-bold py-3 rounded-sm transition-transform duration-300  hover:cursor-pointer hover:border-black hover:shadow-md bg-[var(--site-black)]"
-                                    onClick={() => alert(`Showing details for ${category.title}`)}
-                                >
-                                    Request Service
-                                </button>
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <button
+                                            className="mt-auto w-fulltext-white text-lg font-bold py-3 rounded-sm transition-transform duration-300  hover:cursor-pointer hover:border-black hover:shadow-md bg-[var(--site-black)]"
+                                        >
+                                            Request Service
+                                        </button>
+                                    </DialogTrigger>
+                                    <DialogContent
+                                        className="
+                                            sm:max-w-[455px] 
+                                            overflow-hidden 
+                                            lg:max-w-[80%] 
+                                            lg:min-h-[50%] 
+                                            bg-[var(--site-purple)] 
+                                            text-white 
+                                            border-[var(--site-light-pink)]
+                                        "
+                                    >
+                                        <DialogHeader className="text-center">
+                                            <DialogTitle>{category.title}</DialogTitle>
+                                            <DialogDescription>
+                                                <p className="text-white">
+                                                    {category.mainDesc}
+                                                </p>
+                                            </DialogDescription>
+                                        </DialogHeader>
+
+                                        <div>
+                                            <p className="text-xl font-bold mb-5">
+                                                What you will get:
+                                            </p>
+
+                                            <ul>
+                                                {category.items.map((service, idx) => (
+                                                    <li key={idx}>
+                                                        {idx + 1}. {service}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                            <p className="text-lg mt-20">
+                                                Price: Negotiable
+                                            </p>
+                                        </div>
+
+                                        <DialogFooter className="p-2 overflow-hidden flex flex-row justify-center align-center">
+                                            <Dialog>
+                                                <DialogTrigger asChild>
+                                                    <Button
+                                                        variant="outline"
+                                                        className="
+                                                    overflow-hidden 
+                                                    bg-[var(--site-pink)] 
+                                                    border-none 
+                                                    hover:bg-[var(--site-light-pink)] 
+                                                    cursor-pointer
+                                                    flex items-center gap-2
+                                                    "
+                                                    >
+                                                        <FaPhoneVolume size={23} />
+                                                        <p>Make a call</p>
+                                                    </Button>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <p
+                                                    className="text-center"
+                                                    >
+                                                        +2547000000
+                                                    </p>
+                                                </DialogContent>
+                                            </Dialog>
+                                            <a
+                                                href="https://whatsapp.com/channel/0029VbBDurkFsn0nuZ64Vp3L"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                <Button
+                                                    type="button"
+                                                    className="overflow-hidden flex items-center gap-2 cursor-pointer hover:bg-[var(--site-black)]/50"
+                                                >
+                                                    <RiWhatsappFill size={23} className="hover:text-black" />
+                                                    <p className="">Direct Message</p>
+                                                </Button>
+                                            </a>
+                                        </DialogFooter>
+                                    </DialogContent>
+                                </Dialog>
                             </div>
                         </ScrollFadeIn>
                     ))}

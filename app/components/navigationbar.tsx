@@ -1,4 +1,3 @@
-// components/NavigationBar.tsx
 "use client";
 
 import { useState } from "react";
@@ -34,13 +33,12 @@ export default function NavigationBar() {
                     <a href="#" className="flex items-center space-x-2">
                         <div className="flex items-center space-x-2">
                             <span className="text-xl md:text-2xl font-black text-white uppercase tracking-tighter">
-                                <span style={{ color: colors.pop }}>Carol</span>Digital
+                                <span style={{ color: colors.pop }}>Carol </span>The Digital Coach
                             </span>
                         </div>
                     </a>
                     <div className="hidden md:flex items-center space-x-8">
 
-                        {/* Navigation Links (Mimicking NavigationMenu) */}
                         <div className="flex space-x-6">
                             {navigationItems.map((item) => (
                                 <a
@@ -56,20 +54,9 @@ export default function NavigationBar() {
                                 </a>
                             ))}
                         </div>
-
-                        {/* CTA Button - Desktop */}
                         <div className="flex items-center space-x-4">
-                            {/* Login Button - Subtle */}
-                            <button className="text-sm font-medium uppercase tracking-widest transition-colors hover:scale-[1] duration-300 hover:border-2 p-1 rounded-sm border-2"
-                                style={{ color: colors.soft }}
-                                onMouseOver={e => e.currentTarget.style.color = colors.pop}
-                                onMouseOut={e => e.currentTarget.style.color = colors.soft}
-                            >
-                                Login
-                            </button>
 
-                            {/* Get Started Button - Pop */}
-                            <button className="px-6 py-2 text-sm font-bold uppercase rounded-md transition-all duration-300 shadow-lg cursor-pointer"
+                            <button className="px-6 py-2 text-sm font-bold uppercase rounded-sm transition-all duration-300 shadow-lg cursor-pointer"
                                 style={{ backgroundColor: colors.pop, color: 'white' }}
                                 onMouseOver={e => e.currentTarget.style.backgroundColor = colors.soft}
                                 onMouseOut={e => e.currentTarget.style.backgroundColor = colors.pop}
@@ -79,7 +66,6 @@ export default function NavigationBar() {
                         </div>
                     </div>
 
-                    {/* Mobile Menu Button (Mimicking SheetTrigger) */}
                     <button
                         onClick={() => setIsOpen(true)}
                         className="md:hidden z-50 focus:outline-none p-2 border rounded-full"
@@ -87,17 +73,13 @@ export default function NavigationBar() {
                     >
                         <Menu size={24} className="text-white" />
                     </button>
-
-                    {/* Mobile Menu Overlay (Mimicking SheetContent) */}
                     <div
-                        // Slide-in from right animation
                         className={cn(
                             "fixed inset-0 flex flex-col justify-start items-center transition-transform duration-500 ease-in-out z-[99] p-6 pt-12",
                             isOpen ? 'translate-x-0' : 'translate-x-full'
                         )}
                         style={{ backgroundColor: colors.base }}
                     >
-                        {/* Close Button */}
                         <div className="flex justify-end w-full mb-16">
                             <button
                                 onClick={() => setIsOpen(false)}
@@ -107,7 +89,6 @@ export default function NavigationBar() {
                             </button>
                         </div>
 
-                        {/* Mobile Navigation Items - Centered, Stroke-Style */}
                         <div className="flex flex-col items-center space-y-8 w-full">
                             {navigationItems.map((item) => (
                                 <a
@@ -125,7 +106,6 @@ export default function NavigationBar() {
                             ))}
                         </div>
 
-                        {/* Mobile CTA Buttons - Centered */}
                         <div className="flex flex-col space-y-4 pt-12 w-full max-w-[240px]">
                             <button
                                 className="w-full py-3 text-sm font-bold uppercase rounded-full transition-all duration-300 border"
@@ -133,7 +113,7 @@ export default function NavigationBar() {
                                 onMouseOver={e => { e.currentTarget.style.borderColor = colors.pop; e.currentTarget.style.color = colors.pop; }}
                                 onMouseOut={e => { e.currentTarget.style.borderColor = colors.soft; e.currentTarget.style.color = colors.soft; }}
                             >
-                                Login
+                                    Login
                             </button>
                             <button
                                 className="w-full py-3 text-sm font-bold uppercase rounded-full transition-all duration-300 shadow-lg"
@@ -152,7 +132,6 @@ export default function NavigationBar() {
     );
 }
 
-// Menu Icon Component
 function MenuIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg

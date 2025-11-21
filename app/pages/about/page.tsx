@@ -15,6 +15,12 @@ import {
 import { ScrollFadeIn } from '@/app/components/scrollanimation';
 import { colors } from '@/lib/colors';
 import { ImageAvatar } from '@/app/components/imageAvatar';
+import { FaXTwitter } from "react-icons/fa6";
+import { MdFacebook } from "react-icons/md";
+import { BsLinkedin } from "react-icons/bs";
+import { AiOutlineGoogle } from "react-icons/ai";
+
+
 
 const services = [
     {
@@ -63,13 +69,13 @@ export default function ServicesSection() {
                     <span className="uppercase tracking-widest text-sm font-bold mb-4 block">
                         What I Do
                     </span>
-                    <h2 className="text-4xl md:text-6xl font-bold max-w-4xl mb-12 leading-tight">
+                    <h2 className="text-4xl md:text-6xl font-bold max-w-4xl mb-12 leading-tight overflow-hidden">
                         Carol The Digital <span style={{ color: colors.pop }}> Analyst.</span>
                     </h2>
                 </ScrollFadeIn>
 
                 <div className="flex flex-col lg:flex-row gap-12 overflow-hidden">
-            
+
                     <ScrollFadeIn delay={150} className="lg:w-1/2 space-y-8 cursor-pointer">
                         <div className="p-6 rounded-xl border-l-4 transition-all duration-300 hover:border-l-8" style={{ borderColor: colors.pop, backgroundColor: colors.base + '50', boxShadow: `0 0 10px ${colors.pop}20` }}>
                             <p className="text-2xl font-semibold leading-relaxed" style={{ color: 'white' }}>
@@ -80,10 +86,29 @@ export default function ServicesSection() {
                         <p className="text-lg leading-relaxed pt-2 text-white">
                             My journey didn't just start — it has been a process of growth, resilience, and purpose. I began learning digital skills as a mother of twins, when I realized how difficult it was to re-enter the job market while caring for my children. That challenge became my turning point and ignited my passion for empowering other mums to find freedom and opportunity online.
                         </p>
-                        
+
                         <p className="text-base leading-relaxed pt-2 text-white">
                             What began with a single YouTube video has grown into 10+ certifications and over 7 years of experience in the digital space. Along the way, I've had the privilege of working with brands across education, technology, gardening, and personal development — and I'm always open to new collaborations that inspire growth and impact.
                         </p>
+                        <div
+                        className='mt-10 w-auto p-2 overflow-hidden'
+                        >
+                            <ScrollFadeIn delay={600}>
+                                <div>
+                                    <p
+                                    className='text-xl font-semibold'
+                                    >
+                                        My Socials
+                                    </p>
+                                </div>
+                                <div className='p-2 min-w-[100px] mt-5 flex flex-row space-x-8'>
+                                    <FaXTwitter size={24} className='hover:translate-x-2 duration-200'/>
+                                    <MdFacebook size={24} className='hover:translate-x-2 duration-200'/>
+                                    <BsLinkedin size={24} className='hover:translate-x-2 duration-200'/>
+                                    <AiOutlineGoogle size={24} className='hover:translate-x-2 duration-200'/>
+                                </div>
+                            </ScrollFadeIn>
+                        </div>
                     </ScrollFadeIn>
 
                     <div className="lg:w-1/2 grid grid-cols-2 gap-6 p-2 max-h-[550px] p-4 overflow-y-hidden">
@@ -94,7 +119,7 @@ export default function ServicesSection() {
                                 <p className="text-sm" style={{ color: colors.soft }}>Empowered for success</p>
                             </div>
                         </ScrollFadeIn>
-                        
+
                         <ScrollFadeIn delay={400}>
                             <div className="p-6 rounded-lg border-2 h-full" style={{ borderColor: colors.soft }}>
                                 <Target size={32} className="mb-3" style={{ color: colors.pop }} />
@@ -102,7 +127,7 @@ export default function ServicesSection() {
                                 <p className="text-sm" style={{ color: colors.soft }}>Client growth metric</p>
                             </div>
                         </ScrollFadeIn>
-                        
+
                         <ScrollFadeIn delay={500}>
                             <div className="p-6 rounded-lg border-2 h-full" style={{ borderColor: colors.soft }}>
                                 <Cpu size={32} className="mb-3" style={{ color: colors.pop }} />
@@ -110,7 +135,7 @@ export default function ServicesSection() {
                                 <p className="text-sm" style={{ color: colors.soft }}>Continuous online support</p>
                             </div>
                         </ScrollFadeIn>
-                        
+
                         <ScrollFadeIn delay={600}>
                             <div className="p-6 rounded-lg border-2 h-full" style={{ borderColor: colors.soft }}>
                                 <Zap size={32} className="mb-3" style={{ color: colors.pop }} />
@@ -118,7 +143,7 @@ export default function ServicesSection() {
                                 <p className="text-sm" style={{ color: colors.soft }}>Digital experience</p>
                             </div>
                         </ScrollFadeIn>
-                        
+
                     </div>
                 </div>
             </div>
