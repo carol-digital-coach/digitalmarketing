@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 const itimRegular = Itim({
-  variable: "--font-geist-mono",
+  variable: "--font-itim-regular",
   subsets: ["latin"],
   weight: "400"
 });
@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${itimRegular.variable} ${itimRegular.variable} antialiased`}
       >
         <div className={`${itimRegular.variable}`}>
             <NavigationBar/>

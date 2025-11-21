@@ -1,143 +1,77 @@
 "use client"
 import AboutPage from "../about/page"
+import ServicesPage from "../services/page";
+
 import StatCard from "@/app/components/statscard"
+import { Zap, ArrowRight } from "lucide-react";
+import { CustomCursor } from "@/app/components/customcursor";
+import { ScrollFadeIn } from "@/app/components/scrollanimation";
+import { colors } from "@/lib/colors";
 
-export const HomePage = () => {
+export default function HomePage (){
     return (
-        <div className="min-h-screen border-none">
-            <div className="bg-[var(--site-pink)]">
-                <div className="flex flex-col lg:flex-row items-start justify-center min-h-[90vh] lg:min-h-[80vh] px-4 py-8 lg:py-0 lg:mt-30 gap-8 lg:gap-16">
-                    <div className="flex justify-center items-center order-1 lg:order-1 w-full">
-                        <div className="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px]">
-                            <div
-                                className={
-                                    "absolute border-2 border-gray-200 rounded-[50%] w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] bg-white shadow-sm z-30"
-                                }
-                                style={{
-                                    bottom: '15px',
-                                    left: '15px',
-                                }}
-                            ></div>
-                            <div
-                                className="absolute rounded-[50%] w-full h-full overflow-hidden border-4 border-white shadow-2xl z-40 bg-gray-100"
-                                style={{
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: 'translate(-50%, -50%)',
-                                }}
-                            >
-                                <img
-                                    src="https://www.pngplay.com/wp-content/uploads/6/Scattered-Books-PNG-HD-Quality.png"
-                                    className="w-full h-full object-contain scale-110"
-                                    alt="Carol - Digital Coach"
-                                />
+        <div className="min-h-screen bg-[var(--site-pink)] font-[var(--font-itim-regular)]">
+            <div className="bg-[var(--site-pink)]/50">
+                <div className="flex flex-col lg:flex-row items-start justify-center min-h-[90vh] lg:min-h-[80vh] px-4 py-8 lg:py-0 lg:mt-10 gap-8 lg:gap-16">
+                    <section className="relative w-full h-screen flex items-center justify-center overflow-hidden" style={{ backgroundColor: colors.pop, color: 'white' }}>
+
+                        {/* Subtle Background Grid Animation */}
+                        <div className="absolute inset-0 opacity-20 pointer-events-none">
+                            <div className="w-full h-full" style={{ backgroundImage: `linear-gradient(${colors.deep} 1px, transparent 1px), linear-gradient(to right, ${colors.deep} 1px, transparent 1px)`, backgroundSize: '40px 40px' }}>
+                                {/* Pulsing Dot representing data entry point */}
+                                <div className="absolute top-[20%] left-[20%] w-3 h-3 rounded-full animate-ping-slow" style={{ backgroundColor: colors.pop }}></div>
+                                <div className="absolute bottom-[30%] right-[20%] w-3 h-3 rounded-full animate-ping-slow-delay" style={{ backgroundColor: colors.pop }}></div>
                             </div>
+                        </div>
+                        <style>{`
+        @keyframes ping-slow {
+            0% { transform: scale(0.1); opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+        .animate-ping-slow { animation: ping-slow 5s infinite; }
+        .animate-ping-slow-delay { animation: ping-slow 5s infinite 2.5s; }
+      `}</style>
 
+                        <div className="flex lg:flex-row container mx-auto px-6 relative z-10 flex flex-col items-center text-center pt-20 overflow-hidden p-4">
                             <div
-                                className="absolute border border-gray-100 rounded-[50%] w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] bg-white/80 shadow-md z-20"
-                                style={{
-                                    bottom: '40px',
-                                    left: '-10px',
-                                }}
-                            ></div>
-
+                            className="overflow-hidden"
+                            >
+                                <ScrollFadeIn delay={100}>
+                                    <img src="../carolpic.png" alt="" className="hidden lg:block h-[600px]"/>
+                                    <img src="../carolpic2.png" alt="" className="lg:hidden sm:block rounded-[50%]"/>
+                                </ScrollFadeIn>
+                            </div>
                             <div
-                                className="absolute border border-gray-100 rounded-[50%] w-[40px] h-[40px] sm:w-[60px] sm:h-[60px] bg-white/60 shadow-sm z-10"
-                                style={{
-                                    bottom: '5px',
-                                    left: '35px',
-                                }}
-                            ></div>
-                        </div>
-                    </div>
-                    <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-2 max-w-2xl w-full lg:mr-20">
-                        <h1 className="font-bold text-white text-3xl sm:text-4xl lg:text-5xl leading-tight text-center lg:text-left">
-                            Hi I'm Carol
-                            <span className="block text-white/70 mt-2">The Digital Coach</span>
-                        </h1>
-
-                        <p className="mt-6 text-xl sm:text-2xl text-white font-light text-center lg:text-left">
-                            Your Digital Success Partner
-                        </p>
-
-                        <div className="mt-6 space-y-3 w-full">
-                            <p className="text-white text-lg sm:text-xl leading-relaxed text-center lg:text-left">
-                                Empowering entrepreneurs and businesses to thrive in the digital world through
-                            </p>
-                            <p className="text-white text-lg sm:text-xl leading-relaxed text-center lg:text-left">
-                                strategic coaching, proven systems, and authentic growth.
-                            </p>
-                        </div>
-
-                        <div className="flex flex-col sm:flex-row gap-4 mt-8 w-full sm:w-auto justify-center lg:justify-start p-2">
-                            <button
-                                className="px-8 py-4 rounded-sm text-[var(--site-light-pink)] hover:text-white font-semibold bg-white hover:bg-transparent hover:border hover:border hover:scale-105 transition-all duration-300 cursor-pointer shadow-lg min-w-[180px]"
+                            className="overflow-hidden"
                             >
-                                Explore Services
-                            </button>
-                            <button
-                                className="px-8 py-4 rounded-sm text-white font-semibold bg-transparent border-2 border-white hover:text-[var(--site-light-pink)] hover:bg-white hover:scale-105 transition-all duration-300 cursor-pointer shadow-lg min-w-[180px]"
-                            >
-                                Get Started
-                            </button>
+                                <ScrollFadeIn delay={0}>
+                                    <h1 className="text-6xl md:text-8xl font-black tracking-tighter uppercase max-w-4xl leading-tight overflow-hidden">
+                                        Your Online Digital <span style={{ color: colors.base }}>Coach</span>
+                                    </h1>
+                                </ScrollFadeIn>
+                                <ScrollFadeIn delay={200}>
+                                    <p
+                                        className="mt-8 text-xl md:text-2xl max-w-3xl font-light tracking-wide"
+                                    
+                                    >
+                                        Empowering entrepreneurs and businesses to thrive in the digital world through strategic coaching, proven systems, and authentic growth.
+                                    </p>
+                                </ScrollFadeIn>
+
+                                <ScrollFadeIn delay={400} className="mt-12">
+                                    <button 
+                                    className="px-8 py-3 text-lg font-bold uppercase rounded-md hover:cursor-pointer bg-[var(--site-black)] border-3 border-[var(--site-black)] hover:bg-transparent hover:text-[var(--site-black)]"
+                                    >
+                                        View Services <ArrowRight size={20} className="inline ml-2 text-siteBlack" />
+                                    </button>
+                                </ScrollFadeIn>
+                            </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
-                <section className="bg-[var(--site-black)] text-white py-16 md:py-24 px-6 md:px-12 overflow-hidden">
-                    <div className="max-w-6xl mx-auto">
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-
-                            <div className="lg:col-span-4">
-                                <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
-                                    Empowering Growth Through Digital Skills.
-                                </h2>
-                                <div className="h-1 w-20 bg-[var(--site-pink)] rounded-full mb-6"></div>
-                                <p className="text-white text-sm uppercase tracking-widest font-medium">
-                                    About Me
-                                </p>
-                            </div>
-
-                            <div className="lg:col-span-8 space-y-6 text-lg text-gray-300 leading-relaxed">
-                                <p>
-                                    <span className="text-white font-semibold border-b border-blue-500/30 pb-0.5">
-                                        I've helped over 100 individuals discover their ability to create income online.
-                                    </span>{" "}
-                                    Some have launched their own businesses by turning their talents into
-                                    profitable ventures, while others have learned valuable digital skills
-                                    such as content writing, social media management, and more —
-                                    transforming those skills into sustainable sources of income.
-                                </p>
-
-                                <p>
-                                    My journey didn't just start — it has been a process of growth,
-                                    resilience, and purpose. I began learning digital skills as a mother
-                                    of twins, when I realized how difficult it was to re-enter the job
-                                    market while caring for my children. That challenge became my
-                                    turning point and ignited my passion for empowering other mums to
-                                    find freedom and opportunity online.
-                                </p>
-
-                                <p>
-                                    What began with a single YouTube video has grown into 10+
-                                    certifications and over 7 years of experience in the digital space.
-                                    Along the way, I've had the privilege of working with brands across
-                                    education, technology, gardening, and personal development — and I'm
-                                    always open to new collaborations that inspire growth and impact.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent my-16"></div>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center p-2">
-                            <StatCard label="Clients Coached" value="100+" delay="0" />
-                            <StatCard label="Years Experience" value="7+" delay="100" />
-                            <StatCard label="Success Rate" value="95%" delay="200" />
-                            <StatCard label="Support Available" value="24/7" delay="300" />
-                        </div>
-                    </div>
-                </section>
             </div>
             <AboutPage />
+            <ServicesPage />
         </div>
     )
 }
