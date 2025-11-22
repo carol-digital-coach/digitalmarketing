@@ -2,6 +2,7 @@
 import AboutPage from "../about/page"
 import ServicesPage from "../services/page";
 
+
 import StatCard from "@/app/components/statscard"
 import { Zap, ArrowRight } from "lucide-react";
 import { CustomCursor } from "@/app/components/customcursor";

@@ -1,7 +1,7 @@
 "use client"
 import { ScrollFadeIn } from "@/app/components/scrollanimation";
 import { colors } from "@/lib/colors";
-import { Zap, HardHat, Cpu, Briefcase, Target, Feather, Megaphone, Search, Users, MessageSquare, CheckCircle } from "lucide-react"
+import { Zap, HardHat, Cpu, Briefcase, Target, Feather, Megaphone, Search, Users, MessageSquare, CheckCircle, FileSearch } from "lucide-react"
 import {
     Dialog,
     DialogClose,
@@ -88,6 +88,18 @@ export default function ServicesPage() {
                 "Analytics & Performance Tracking: Utilize insights to continuously refine and improve your results.",
             ],
         },
+        {
+            title: "High-Performance Ads Setup & Optimization",
+            icon: FileSearch, 
+            mainDesc: "Build a powerful, authoritative online presence. This package provides the technical, content, and strategy support required to dominate organic search rankings.",
+            items: [
+                "Technical Website Audit",
+                "Comprehensive Keyword Strategy",
+                "In-Depth Competitor Analysis",
+                "Customized Content Strategy Guide",
+                "Actionable SEO Implementation Roadmap"
+            ]
+        }
     ];
     return (
         <section id="services" className="py-24 min-h-screen overflow-hidden" style={{ backgroundColor: colors.base, color: 'white' }}>
@@ -135,9 +147,9 @@ export default function ServicesPage() {
                                 <Dialog>
                                     <DialogTrigger asChild>
                                         <button
-                                            className="mt-auto w-fulltext-white text-lg font-bold py-3 rounded-sm transition-transform duration-300  hover:cursor-pointer hover:border-black hover:shadow-md bg-[var(--site-black)]"
+                                            className="mt-auto w-full text-white text-lg font-bold py-3 rounded-sm transition-transform duration-300 hover:cursor-pointer hover:border-black hover:shadow-lg bg-[var(--site-black)]"
                                         >
-                                            Request Service
+                                            Get a Custom Package
                                         </button>
                                     </DialogTrigger>
                                     <DialogContent
@@ -151,10 +163,12 @@ export default function ServicesPage() {
                                             border-[var(--site-light-pink)]
                                         "
                                     >
-                                        <DialogHeader className="text-center">
-                                            <DialogTitle>{category.title}</DialogTitle>
+                                        <DialogHeader className="text-center overflow-hidden">
+                                            <DialogTitle
+                                                className="overflow-hidden"
+                                            >{category.title}</DialogTitle>
                                             <DialogDescription>
-                                                <p className="text-white">
+                                                <p className="text-white overflow-hidden">
                                                     {category.mainDesc}
                                                 </p>
                                             </DialogDescription>
@@ -162,7 +176,7 @@ export default function ServicesPage() {
 
                                         <div>
                                             <p className="text-xl font-bold mb-5">
-                                                What you will get:
+                                                Your Custom Service Package Includes:
                                             </p>
 
                                             <ul>
@@ -172,37 +186,14 @@ export default function ServicesPage() {
                                                     </li>
                                                 ))}
                                             </ul>
-                                            <p className="text-lg mt-20">
-                                                Price: Negotiable
-                                            </p>
                                         </div>
 
-                                        <DialogFooter className="p-2 overflow-hidden flex flex-row justify-center align-center">
-                                            <Dialog>
-                                                <DialogTrigger asChild>
-                                                    <Button
-                                                        variant="outline"
-                                                        className="
-                                                    overflow-hidden 
-                                                    bg-[var(--site-pink)] 
-                                                    border-none 
-                                                    hover:bg-[var(--site-light-pink)] 
-                                                    cursor-pointer
-                                                    flex items-center gap-2
-                                                    "
-                                                    >
-                                                        <FaPhoneVolume size={23} />
-                                                        <p>Make a call</p>
-                                                    </Button>
-                                                </DialogTrigger>
-                                                <DialogContent>
-                                                    <p
-                                                    className="text-center"
-                                                    >
-                                                        +2547000000
-                                                    </p>
-                                                </DialogContent>
-                                            </Dialog>
+                                        <p className="text-xl font-bold mt-4 mb-3 text-center">
+                                            Ready for Your Tailored Quote?
+                                        </p>
+
+                                        <DialogFooter className="p-2 overflow-hidden flex flex-row justify-center align-center gap-3">
+
                                             <a
                                                 href="https://whatsapp.com/channel/0029VbBDurkFsn0nuZ64Vp3L"
                                                 target="_blank"
@@ -210,12 +201,35 @@ export default function ServicesPage() {
                                             >
                                                 <Button
                                                     type="button"
-                                                    className="overflow-hidden flex items-center gap-2 cursor-pointer hover:bg-[var(--site-black)]/50"
+                                                    className="overflow-hidden flex items-center gap-2 cursor-pointer bg-green-500 hover:bg-green-600 text-white"
                                                 >
-                                                    <RiWhatsappFill size={23} className="hover:text-black" />
-                                                    <p className="">Direct Message</p>
+                                                    <RiWhatsappFill size={23} />
+                                                    <p className="font-bold ">Message to Get Quote</p>
                                                 </Button>
                                             </a>
+
+                                            <Dialog>
+                                                <DialogTrigger asChild>
+                                                    <Button
+                                                        variant="outline"
+                                                        className="
+                                                            overflow-hidden 
+                                                            bg-[var(--site-pink)] 
+                                                            border-none 
+                                                            hover:bg-[var(--site-light-pink)] 
+                                                            cursor-pointer
+                                                            flex items-center gap-2
+                                                        "
+                                                    >
+                                                        <FaPhoneVolume size={23} />
+                                                        <p>Call to Discuss</p>
+                                                    </Button>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <p className="text-center">+2547000000</p>
+                                                </DialogContent>
+                                            </Dialog>
+
                                         </DialogFooter>
                                     </DialogContent>
                                 </Dialog>

@@ -12,7 +12,7 @@ import { colors } from "@/lib/colors";
 const navigationItems = [
     { name: "Home", href: "/" },
     { name: "Services", href: "/pages/services" },
-    { name: "Portfolio", href: "/portfolio" },
+    { name: "Courses", href: "/pages/courses" },
     { name: "About", href: "/pages/about" },
     { name: "Blog", href: "/blog" },
     { name: "Contact", href: "/contact" },
