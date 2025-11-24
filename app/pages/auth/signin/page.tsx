@@ -11,7 +11,7 @@ import {
     FormDescription
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { UserSignUpSchema } from "@/lib/zod"
+import { UserSignUpSchema, UserLoginSchema } from "@/lib/zod"
 import { useState } from "react"
 import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
 import { Button } from "@/components/ui/button"
@@ -22,12 +22,10 @@ export default function SignUpPage() {
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
 
-    const form = useForm<z.infer<typeof UserSignUpSchema>>({
-        resolver: zodResolver(UserSignUpSchema),
+    const form = useForm<z.infer<typeof UserLoginSchema>>({
+        resolver: zodResolver(UserLoginSchema),
         defaultValues: {
-            username: undefined,
             email: undefined,
-            admin: false,
             password: undefined
         }
     })
@@ -41,40 +39,14 @@ export default function SignUpPage() {
                 <div className="relative rounded-2xl p-8 bg-white">
                     <div className="text-center mb-8">
                         <h2 className="text-2xl font-light text-gray-800 mb-2">
-                            Get Started
+                            Welcome Back!
                         </h2>
                         <p className="text-sm" style={{ color: '#711A75' }}>
-                            Create Account
+                            Signin to continue
                         </p>
                     </div>
                     <Form {...form}>
                         <div className="space-y-4">
-                            <FormField
-                                name="username"
-                                control={form.control}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormDescription className="text-gray-600 text-sm mb-1.5">Username</FormDescription>
-                                        <FormControl>
-                                            <div className="relative">
-                                                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                                                <Input
-                                                    {...field}
-                                                    placeholder="Enter your username"
-                                                    className="pl-10 pr-4 py-3 rounded-md text-gray-800 placeholder-gray-400 focus:outline-none transition-all text-sm border focus-visible:ring-1"
-                                                    style={{
-                                                        backgroundColor: '#F7F7FA',
-                                                        borderColor: 'rgba(155, 63, 158, 0.3)',
-                                                        boxShadow: '0 0 0 1px rgba(155, 63, 158, 0.3)'
-                                                    }}
-                                                />
-                                            </div>
-                                        </FormControl>
-                                        <FormMessage className="text-xs" style={{ color: '#711A75' }} />
-                                    </FormItem>
-                                )}
-                            />
-
                             <FormField
                                 name="email"
                                 control={form.control}
@@ -91,8 +63,6 @@ export default function SignUpPage() {
                                                     className="pl-10 pr-4 py-3 rounded-md text-gray-800 placeholder-gray-400 focus:outline-none transition-all text-sm border focus-visible:ring-1"
                                                     style={{
                                                         backgroundColor: '#F7F7FA',
-                                                        borderColor: 'rgba(155, 63, 158, 0.3)',
-                                                        boxShadow: '0 0 0 1px rgba(155, 63, 158, 0.3)'
                                                     }}
                                                 />
                                             </div>
@@ -118,7 +88,6 @@ export default function SignUpPage() {
                                                     className="pl-10 pr-10 py-3 rounded-md text-gray-800 placeholder-gray-400 focus:outline-none transition-all text-sm border focus-visible:ring-1"
                                                     style={{
                                                         backgroundColor: '#F7F7FA',
-                                                        borderColor: 'rgba(155, 63, 158, 0.3)',
                                                         boxShadow: '0 0 0 1px rgba(155, 63, 158, 0.3)'
                                                     }}
                                                 />
@@ -223,8 +192,8 @@ export default function SignUpPage() {
                             className="text-sm font-medium hover:underline transition-all"
                             style={{ color: '#711A75' }}
                         >
-                            <Link href="/pages/auth/signin">
-                             Sign in
+                            <Link href="/pages/auth/signup">
+                                Sign up
                             </Link>
                         </button>
                     </div>

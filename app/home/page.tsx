@@ -1,6 +1,6 @@
 "use client"
-import AboutPage from "../about/page"
-import ServicesPage from "../services/page";
+import AboutPage from "../pages/about/page"
+import ServicesPage from "../pages/services/page";
 
 
 import StatCard from "@/app/components/statscard"

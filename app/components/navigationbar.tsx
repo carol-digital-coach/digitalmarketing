@@ -10,7 +10,7 @@ import { Menu } from "lucide-react";
 import { colors } from "@/lib/colors";
 
 const navigationItems = [
-    { name: "Home", href: "/" },
+    { name: "Home", href: "/home" },
     { name: "Services", href: "/pages/services" },
     { name: "Courses", href: "/pages/courses" },
     { name: "About", href: "/pages/about" },
@@ -18,14 +18,17 @@ const navigationItems = [
     { name: "Contact", href: "/contact" },
 ];
 import { X } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
 
 export default function NavigationBar() {
     const [isOpen, setIsOpen] = useState(false);
+    const current_path = usePathname()
+    const router = useRouter()
 
     return (
         <nav
-            className="fixed top-0 z-50 w-full px-6 py-2 md:py-6 h-22 overflow-y-hidden"
+            className={current_path.startsWith("/admin") ? "hidden" : "fixed top-0 z-50 w-full px-6 py-2 md:py-6 h-22 overflow-y-hidden"}
             style={{ backgroundColor: colors.base }}
         >
             <div className="container mx-auto">
@@ -60,8 +63,11 @@ export default function NavigationBar() {
                                 style={{ backgroundColor: colors.pop, color: 'white' }}
                                 onMouseOver={e => e.currentTarget.style.backgroundColor = colors.soft}
                                 onMouseOut={e => e.currentTarget.style.backgroundColor = colors.pop}
+                                // onClick={() => router.push("/pages/auth/signup")}
                             >
-                                Get Started
+                                <Link href="/pages/auth/signup" passHref>
+                                        Get Started
+                                </Link>
                             </button>
                         </div>
                     </div>
@@ -113,7 +119,7 @@ export default function NavigationBar() {
                                 onMouseOver={e => { e.currentTarget.style.borderColor = colors.pop; e.currentTarget.style.color = colors.pop; }}
                                 onMouseOut={e => { e.currentTarget.style.borderColor = colors.soft; e.currentTarget.style.color = colors.soft; }}
                             >
-                                    Login
+                                Login
                             </button>
                             <button
                                 className="w-full py-3 text-sm font-bold uppercase rounded-full transition-all duration-300 shadow-lg"
@@ -121,7 +127,9 @@ export default function NavigationBar() {
                                 onMouseOver={e => e.currentTarget.style.backgroundColor = colors.soft}
                                 onMouseOut={e => e.currentTarget.style.backgroundColor = colors.pop}
                             >
-                                Get Started
+                                <Link href="/pages/auth/signup">
+                                    Get Started
+                                </Link>
                             </button>
                         </div>
                     </div>

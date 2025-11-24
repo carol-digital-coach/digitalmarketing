@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Itim } from "next/font/google";
 import "./globals.css";
 import NavigationBar from "@/app/components/navigationbar"
 import {Footer} from "@/app/components/footer"
+import { DashboardProvider } from "./dashboardProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,7 +40,7 @@ export default function RootLayout({
       >
         <div className={`${itimRegular.variable}`}>
             <NavigationBar/>
-            {children}  
+            <DashboardProvider>{children}</DashboardProvider>
             <Footer />
         </div>
       </body>
