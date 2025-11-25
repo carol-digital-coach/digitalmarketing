@@ -1,0 +1,5 @@
+django
+djangorestframework
+dj-database-url
+psycopg-binary
+python-decouple
