@@ -103,7 +103,7 @@ const Navigation = ({ isOpen, setIsOpen }) => {
                     {/* Desktop Menu and CTA */}
                     <div className="hidden md:flex items-center space-x-8">
 
-                        {/* Navigation Links */}
+                        {/* Navigation Links */}  
                         <div className="flex space-x-6">
                             {navigationItems.map((item) => (
                                 <a
