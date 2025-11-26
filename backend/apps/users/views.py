@@ -1,3 +1,39 @@
-from django.shortcuts import render
+from rest_framework import (
+    decorators,
+    permissions,
+    response,
+    status
+)
 
-# Create your views here.
+from . import (
+    models,
+    serialilzers,
+    managers
+)
+
+import json
+import requests
+
+
+@decorators.api_view(["POST"])
+def create_user_account(request):
+    try:
+        # user_avatar = requests.get("https://ui-avatars.com/api/?name=Joseph")
+        data = json.loads(request.body)
+        
+        new_user = models.PbUser.objects.create_user(
+            username=data.get("username"),
+            email=data.get("email"),
+            password=data.get("password"),
+            admin=data.get("admin")
+        )
+        
+        return response.Response({
+            "success" : True,
+            "message" : "user created successfully"
+        }, status=status.HTTP_201_CREATED)
+        
+    except Exception as e:
+        return response.Response({
+            "error": str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
