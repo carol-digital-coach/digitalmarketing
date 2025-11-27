@@ -140,7 +140,7 @@ export default function SignUpPage() {
                                 onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                                 type="submit"
                             >
-                                Sign in
+                                Log in
                             </Button>
                             <div className="relative my-6">
                                 <div className="absolute inset-0 flex items-center">
@@ -214,4 +214,4 @@ export default function SignUpPage() {
             </div>
         </div>
     )
-}
+}   
