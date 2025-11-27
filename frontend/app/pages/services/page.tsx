@@ -226,7 +226,7 @@ export default function ServicesPage() {
                                                     </Button>
                                                 </DialogTrigger>
                                                 <DialogContent>
-                                                    <p className="text-center">+2547000000</p>
+                                                    <p className="text-center">+254704197466</p>
                                                 </DialogContent>
                                             </Dialog>
 

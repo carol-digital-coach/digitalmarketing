@@ -56,7 +56,10 @@ export default function SignUpPage() {
                         </p>
                     </div>
                     <Form {...form}>
-                        <form className="space-y-4">
+                        <form 
+                        className="space-y-4"
+                        onSubmit={form.handleSubmit(OnSubmit)}
+                        >
                             <FormField
                                 name="email"
                                 control={form.control}
@@ -128,7 +131,6 @@ export default function SignUpPage() {
                             )}
 
                             <Button
-                                onClick={form.handleSubmit(OnSubmit)}
                                 className="w-full py-3 rounded-lg font-medium text-white transition-all text-sm mt-6 border-0 p-2"
                                 style={{
                                     background: 'linear-gradient(135deg, #9B3F9E, #FF3A9E)',
