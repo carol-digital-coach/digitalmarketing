@@ -138,6 +138,7 @@ export default function SignUpPage() {
                                 }}
                                 onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
                                 onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                                type="submit"
                             >
                                 Sign in
                             </Button>
