@@ -105,10 +105,10 @@ export default function ServicesPage() {
         <section id="services" className="py-24 min-h-screen overflow-hidden" style={{ backgroundColor: colors.base, color: 'white' }}>
             <div className="container mx-auto px-4 md:px-6 max-w-7xl overflow-hidden">
                 <ScrollFadeIn>
-                    <h1 className="uppercase tracking-widest text-2xl font-bold mb-3 block">
+                    <h1 className="uppercase tracking-widest text-6xl font-bold mb-3 block overflow-hidden">
                         Services
                     </h1>
-                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold max-w-5xl mb-12 leading-tight overflow-hidden">
+                    <h2 className="text-3xl md:text-5xl lg:text-4xl font-extrabold max-w-5xl mb-12 leading-tight overflow-hidden">
                         Empowering Entrepreneurs & SMEs with <span style={{ color: colors.pop }}>Practical Digital Strategies.</span>
                     </h2>
                     <p className="text-lg mb-16 max-w-4xl text-white overflow-hidden">

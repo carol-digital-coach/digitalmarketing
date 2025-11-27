@@ -16,6 +16,7 @@ import { useState } from "react"
 import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import axios from  "axios"
 
 export default function SignUpPage() {
 
@@ -29,6 +30,15 @@ export default function SignUpPage() {
             password: undefined
         }
     })
+
+    const OnSubmit = async(values: z.infer<typeof UserLoginSchema>) => {
+        try{
+            const login_response = await axios.post("http://localhost:8000/users/signin/", values)
+            console.log(login_response.data)
+        }catch(error){
+            console.log(error)
+        }
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#F0F0F5' }}>
@@ -46,7 +56,7 @@ export default function SignUpPage() {
                         </p>
                     </div>
                     <Form {...form}>
-                        <div className="space-y-4">
+                        <form className="space-y-4">
                             <FormField
                                 name="email"
                                 control={form.control}
@@ -118,7 +128,7 @@ export default function SignUpPage() {
                             )}
 
                             <Button
-                                onClick={form.handleSubmit(onsubmit)}
+                                onClick={form.handleSubmit(OnSubmit)}
                                 className="w-full py-3 rounded-lg font-medium text-white transition-all text-sm mt-6 border-0 p-2"
                                 style={{
                                     background: 'linear-gradient(135deg, #9B3F9E, #FF3A9E)',
@@ -127,7 +137,7 @@ export default function SignUpPage() {
                                 onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
                                 onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                             >
-                                {isLogin ? 'Sign in' : 'Create account'}
+                                Sign in
                             </Button>
                             <div className="relative my-6">
                                 <div className="absolute inset-0 flex items-center">
@@ -180,7 +190,7 @@ export default function SignUpPage() {
                                     GitHub
                                 </button>
                             </div>
-                        </div>
+                        </form>
                     </Form>
 
                     <div className="mt-8 text-center">
