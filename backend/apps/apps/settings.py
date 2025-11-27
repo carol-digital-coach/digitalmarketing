@@ -1,5 +1,6 @@
 from pathlib import Path
 from decouple import config
+from datetime import timedelta
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,10 +30,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "rest_framework",
     'rest_framework_simplejwt',
+    'corsheaders',
     'users'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -42,13 +45,31 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000"
+]
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "PUT",
+    "PATCH",
+    "POST",
+    "OPTIONS"
+)
+
 ROOT_URLCONF = 'apps.urls'
 
 #Include authentication in restframework using jwt
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication"
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME" : timedelta(minutes=20),
+    "REFRESH_TOKEN_LIFETIME" : timedelta(days=1)
 }
 
 TEMPLATES = [

@@ -6,13 +6,13 @@ class PbUserManager(BaseUserManager):
         username,
         email, 
         password,
-        admin
+        user_avatar
     ):
         required_fields = {
             "username" : username,
             "email" : email,
             "password" : password,
-            "admin" : admin
+            "user_avatar": user_avatar
         }
         
         missing_fields = [
@@ -26,7 +26,7 @@ class PbUserManager(BaseUserManager):
         user = self.model(
             username= username,
             email= email,
-            admin = admin
+            user_avatar = user_avatar
         )
         
         user.set_password(password)
@@ -38,13 +38,13 @@ class PbUserManager(BaseUserManager):
         username,
         email,
         password,
-        admin
+        user_avatar,
     ):
         required_fields = {
             "username" : username,
             "email" : email,
             "password" : password,
-            "admin" : admin
+            "user_avatar" : user_avatar
         }
         
         missing_fields = [
@@ -58,7 +58,7 @@ class PbUserManager(BaseUserManager):
         user = self.model(
             username= username,
             email= email,
-            admin = admin
+            user_avatar = user_avatar
         )
         
         user.set_password(password)

@@ -5,3 +5,4 @@ psycopg-binary
 python-decouple
 requests
 djangorestframework-simplejwt[crypto]
+django-cors-headers

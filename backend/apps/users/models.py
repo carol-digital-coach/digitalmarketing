@@ -19,13 +19,8 @@ class PbUser(AbstractBaseUser, PermissionsMixin):
         unique=True
     )
     
-    admin = models.BooleanField(
-        default=False,  
-        blank=True,
-        null=True
-    )
     
-    userAvatar = models.URLField(null=True, blank=True)
+    user_avatar = models.URLField(null=True, blank=True)
     
     password = models.CharField(
         help_text="Provide password",

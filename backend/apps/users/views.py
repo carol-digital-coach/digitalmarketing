@@ -18,14 +18,13 @@ import requests
 @decorators.api_view(["POST"])
 def create_user_account(request):
     try:
-        # user_avatar = requests.get("https://ui-avatars.com/api/?name=Joseph")
         data = json.loads(request.body)
         
         new_user = models.PbUser.objects.create_user(
             username=data.get("username"),
             email=data.get("email"),
             password=data.get("password"),
-            admin=data.get("admin")
+            user_avatar=f"https://ui-avatars.com/api/?name={data.get("username")}"
         )
         
         return response.Response({
