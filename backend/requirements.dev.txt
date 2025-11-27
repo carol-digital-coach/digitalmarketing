@@ -3,3 +3,5 @@ djangorestframework
 dj-database-url
 psycopg-binary
 python-decouple
+requests
+djangorestframework-simplejwt[crypto]
