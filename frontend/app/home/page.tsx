@@ -8,8 +8,10 @@ import { Zap, ArrowRight } from "lucide-react";
 import { CustomCursor } from "@/app/components/customcursor";
 import { ScrollFadeIn } from "@/app/components/scrollanimation";
 import { colors } from "@/lib/colors";
+import { tokenManager } from "@/lib/tokenCache";
 
 export default function HomePage() {
+    console.log(tokenManager.getRefreshToken())
     return (
         <div className="min-h-screen bg-[var(--site-pink)] font-[var(--font-itim-regular)]">
             <div className="bg-[var(--site-pink)]/50">
