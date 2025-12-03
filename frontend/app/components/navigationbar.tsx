@@ -6,8 +6,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { Divide, Menu } from "lucide-react";
 import { colors } from "@/lib/colors";
+import { useUserAuth } from "@/lib/userDataContext";
 
 const navigationItems = [
     { name: "Home", href: "/home" },
@@ -25,7 +26,8 @@ export default function NavigationBar() {
     const [isOpen, setIsOpen] = useState(false);
     const current_path = usePathname()
     const router = useRouter()
-
+    const { state } = useUserAuth()
+    console.log(state.user)
     return (
         <nav
             className={current_path.startsWith("/admin") ? "hidden" : "fixed top-0 z-50 w-full px-6 py-2 md:py-6 h-22 overflow-y-hidden"}
@@ -59,16 +61,57 @@ export default function NavigationBar() {
                         </div>
                         <div className="flex items-center space-x-4">
 
-                            <button className="px-6 py-2 text-sm font-bold uppercase rounded-sm transition-all duration-300 shadow-lg cursor-pointer"
+                            {!state.user ? <button className="px-6 py-2 text-sm font-bold uppercase rounded-sm transition-all duration-300 shadow-lg cursor-pointer"
                                 style={{ backgroundColor: colors.pop, color: 'white' }}
                                 onMouseOver={e => e.currentTarget.style.backgroundColor = colors.soft}
                                 onMouseOut={e => e.currentTarget.style.backgroundColor = colors.pop}
-                                // onClick={() => router.push("/pages/auth/signup")}
+                            // onClick={() => router.push("/pages/auth/signup")}
                             >
-                                <Link href="/pages/auth/signup" passHref>
-                                        Get Started
+                                <Link href="/pages/auth/signin" passHref>
+                                    Login
                                 </Link>
-                            </button>
+                            </button> : <div
+                                className="
+                                    flex items-center 
+                                    p-1 pr-4         
+                                    space-x-3        
+                                    rounded-full 
+                                    cursor-pointer
+                                    
+                                    bg-[var(--site-pink)]   
+                                    text-white       
+                                    
+                                    shadow-sm        
+                                    transition-all   
+                                    duration-300     
+                                    
+                                    hover:bg-pink-600 
+                                    hover:scale-[1.02] 
+                                    hover:shadow-xl  
+  "
+                            >
+                                {/* Avatar Image */}
+                                <img
+                                    className="
+            rounded-full 
+            w-10 h-10 
+            object-cover /* Ensures the image covers the area nicely */
+            border-2 border-white /* Optional: A thin white border around the avatar */
+        "
+                                    src={state.user.user.avatar}
+                                    alt={`${state.user.user.username}'s avatar`}
+                                />
+
+                                {/* Username */}
+                                <p className="
+        text-base     /* Slightly reduced font size for better balance */
+        font-medium   /* Semi-bold weight for emphasis */
+        truncate      /* Ensures long usernames don't overflow */
+        max-w-32      /* Optional: Limit width for very long usernames */
+    ">
+                                    {state.user.user.username}
+                                </p>
+                            </div>}
                         </div>
                     </div>
 

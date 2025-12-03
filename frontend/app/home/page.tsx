@@ -9,9 +9,12 @@ import { CustomCursor } from "@/app/components/customcursor";
 import { ScrollFadeIn } from "@/app/components/scrollanimation";
 import { colors } from "@/lib/colors";
 import { tokenManager } from "@/lib/tokenCache";
+import { useUserAuth } from "@/lib/userDataContext";
 
 export default function HomePage() {
     console.log(tokenManager.getRefreshToken())
+    const {state} = useUserAuth()
+    console.log(state.user?.user.avatar)
     return (
         <div className="min-h-screen bg-[var(--site-pink)] font-[var(--font-itim-regular)]">
             <div className="bg-[var(--site-pink)]/50">

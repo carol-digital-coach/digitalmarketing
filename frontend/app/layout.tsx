@@ -4,6 +4,7 @@ import "./globals.css";
 import NavigationBar from "@/app/components/navigationbar"
 import {Footer} from "@/app/components/footer"
 import { DashboardProvider } from "./dashboardProvider";
+import { AuthContextUserProvider } from "@/lib/userDataContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,11 +39,13 @@ export default function RootLayout({
       <body
         className={`${itimRegular.variable} ${itimRegular.variable} antialiased`}
       >
-        <div className={`${itimRegular.variable}`}>
-            <NavigationBar/>
-            <DashboardProvider>{children}</DashboardProvider>
-            <Footer />
-        </div>
+        <AuthContextUserProvider>
+            <div className={`${itimRegular.variable}`}>
+                <NavigationBar/>
+                <DashboardProvider>{children}</DashboardProvider>
+                <Footer />
+            </div>
+        </AuthContextUserProvider>
       </body>
     </html>
   );

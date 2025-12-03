@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import axios from  "axios"
 import { tokenManager } from "@/lib/tokenCache"
+import { useUserAuth } from "@/lib/userDataContext"
 
 export default function SignUpPage() {
 
@@ -32,15 +33,32 @@ export default function SignUpPage() {
         }
     })
 
+    const {state, dispatch} = useUserAuth()
+
     const OnSubmit = async(values: z.infer<typeof UserLoginSchema>) => {
         try{
-            const login_response = await axios.post("http://localhost:8000/users/signin/", values)
-            console.log(login_response.data)
-            console.log(tokenManager.getAccessToken())
+            dispatch({type: "LOGIN_REQUEST"})
+            const login_response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_TEST}/users/signin/`, values)
+            const get_user_data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_TEST}/users/get-user/`, {
+                headers: {
+                    Authorization: `Bearer ${login_response.data.access}`
+                }
+            })
+            const new_user_data = {
+                ...get_user_data.data,
+                ...login_response.data
+            }
+
+            console.log(new_user_data)
+            console.log(login_response.data.access)
+            console.log(get_user_data.data)
+            dispatch({type: "LOGIN_SUCCESS", payload: new_user_data})
         }catch(error){
             console.log(error)
         }
     }
+
+    console.log(state)
 
 
     return (

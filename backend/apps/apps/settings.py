@@ -16,7 +16,11 @@ SECRET_KEY = 'django-insecure-you%k579m6^%c28=*wo==z3ospih73l*e4u@mpr6^^mwghgb+j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "2ff6b79f1fba.ngrok-free.app",
+    "localhost",
+    "127.0.0.1"
+    ]
 
 
 # Application definition
@@ -58,6 +62,10 @@ CORS_ALLOW_METHODS = (
     "OPTIONS"
 )
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://2ff6b79f1fba.ngrok-free.app/"
+]
+
 ROOT_URLCONF = 'apps.urls'
 
 #Include authentication in restframework using jwt
@@ -68,7 +76,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME" : timedelta(minutes=20),
+    "ACCESS_TOKEN_LIFETIME" : timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME" : timedelta(days=1)
 }
 
