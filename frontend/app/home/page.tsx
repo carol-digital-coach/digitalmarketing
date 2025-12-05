@@ -39,7 +39,13 @@ export default function HomePage() {
                             >
                                 <ScrollFadeIn delay={100}>
                                     <img src="../carolpic.png" alt="" className="hidden lg:block h-[600px]" />
-                                    <img src="../carolpic2.png" alt="" className="lg:hidden sm:block rounded-[50%]" />
+                                    <div className="lg:hidden w-4/5 max-w-xs mx-auto aspect-square">
+                                        <img
+                                            src="../carolpic2.png"
+                                            alt="Digital Coach (Mobile)"
+                                            className="w-full h-full object-cover rounded-[50%] shadow-xl"
+                                        />
+                                    </div>
                                 </ScrollFadeIn>
                             </div>
                             <div
