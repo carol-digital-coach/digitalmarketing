@@ -17,6 +17,7 @@ import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import axios from  "axios"
+import { tokenManager } from "@/lib/tokenCache"
 
 export default function SignUpPage() {
 
@@ -35,10 +36,12 @@ export default function SignUpPage() {
         try{
             const login_response = await axios.post("http://localhost:8000/users/signin/", values)
             console.log(login_response.data)
+            console.log(tokenManager.getAccessToken())
         }catch(error){
             console.log(error)
         }
     }
+
 
     return (
         <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#F0F0F5' }}>
