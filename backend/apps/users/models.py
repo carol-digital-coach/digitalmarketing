@@ -29,7 +29,7 @@ class PbUser(AbstractBaseUser, PermissionsMixin):
     )
     
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", "admin"]
+    REQUIRED_FIELDS = ["username", "user_avatar"]
     
     is_staff = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
