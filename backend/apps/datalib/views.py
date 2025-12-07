@@ -15,13 +15,25 @@ import requests
 @decorators.api_view(['GET'])
 def get_services(request):
     try:
-        services = serializers.ServiceSerializers(
-            models.Services.objects.all(),
-            many=True
-            )
+        services_list = []
+        
+
+        service_queryset = models.Services.objects.prefetch_related('service_main_keypoints').all()
+        
+        for service in service_queryset:
+        
+            service_data = serializers.ServiceSerializers(service).data
+            
+        
+            service_points = service.service_main_keypoints.all() #type: ignore
+            points_data = serializers.ServiceMainKeyPoints(service_points, many=True).data
+            
+
+            service_data['keypoints'] = points_data #type: ignore
+            services_list.append(service_data)
         
         return response.Response({
-            "data" : services.data
+            "data": services_list,
         }, status=status.HTTP_200_OK)
     except Exception as e:
         return response.Response({
@@ -44,7 +56,7 @@ def get_single_service(request):
         # Serialize the main service
         service_serializer = serializers.ServiceSerializers(service_instance)
 
-        service_packages_queryset = service_instance.service_packages.all()
+        service_packages_queryset = service_instance.service_packages.all() #type: ignore
         service_packages = serializers.ServicePackages(
             service_packages_queryset,
             many=True
@@ -86,7 +98,7 @@ def get_package(request):
         
         package_instance = serializers.ServicePackages(package_obj)
     
-        package_list_queryset = package_obj.package_list.all()
+        package_list_queryset = package_obj.package_list.all() #type: ignore
         package_list = serializers.PackageListSerializer(
             package_list_queryset,
             many=True
