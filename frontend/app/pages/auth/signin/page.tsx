@@ -13,12 +13,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { UserSignUpSchema, UserLoginSchema } from "@/lib/zod"
 import { useState } from "react"
-import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, X } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import axios from  "axios"
 import { tokenManager } from "@/lib/tokenCache"
 import { useUserAuth } from "@/lib/userDataContext"
+import { toast } from "react-hot-toast"
+import { redirect } from "next/navigation"
 
 export default function SignUpPage() {
 
@@ -49,11 +51,27 @@ export default function SignUpPage() {
                 ...login_response.data
             }
 
-            console.log(new_user_data)
-            console.log(login_response.data.access)
-            console.log(get_user_data.data)
+            toast.success("welcome back")
+            setTimeout(() => {
+                redirect("/home")
+            }, 1500)
             dispatch({type: "LOGIN_SUCCESS", payload: new_user_data})
         }catch(error){
+            toast.error(`Invalid account credentials`, {
+                icon: (
+                    <div>
+                        <X size={15} className="text-white"/>
+                    </div>
+                ),
+                style: {
+                    background: "#ef4444",
+                    color: "#fff"
+                },
+                iconTheme: {
+                primary: "white",
+                secondary: "#ef4444",
+            },
+            })
             console.log(error)
         }
     }

@@ -119,12 +119,9 @@ export const AuthContextUserProvider:FC<{children : ReactNode}> = ({children}) =
             
             const accessDurationMs = accessDurationSeconds * 1000;
             const absoluteExpiryTime = Date.now() + accessDurationMs;
+
             
             const timeUntilExpiry = absoluteExpiryTime - Date.now();
-            
-            console.log("Access Token Duration (s):", accessDurationSeconds);
-            console.log("Absolute Expiry Time (ms):", absoluteExpiryTime);
-            console.log("Remaining Time Until Logout (ms):", timeUntilExpiry);
 
             
             if (timeUntilExpiry > 0) {
