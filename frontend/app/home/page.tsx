@@ -1,7 +1,7 @@
 "use client"
 import AboutPage from "../pages/about/page"
 import ServicesPage from "../pages/services/page";
-
+import { useUserAuth } from "@/lib/userDataContext";
 
 import StatCard from "@/app/components/statscard"
 import { Zap, ArrowRight } from "lucide-react";
@@ -12,6 +12,8 @@ import { tokenManager } from "@/lib/tokenCache";
 
 export default function HomePage() {
     console.log(tokenManager.getRefreshToken())
+    const {state, dispatch} = useUserAuth()
+    console.log(state)
     return (
         <div className="min-h-screen bg-[var(--site-pink)] font-[var(--font-itim-regular)]">
             <div className="bg-[var(--site-pink)]/50">

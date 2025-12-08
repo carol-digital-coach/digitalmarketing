@@ -18,11 +18,14 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import axios from  "axios"
 import { tokenManager } from "@/lib/tokenCache"
+import { useUserAuth } from "@/lib/userDataContext"
 
 export default function SignUpPage() {
 
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
+    const {state, dispatch} = useUserAuth()
+
 
     const form = useForm<z.infer<typeof UserLoginSchema>>({
         resolver: zodResolver(UserLoginSchema),
@@ -37,6 +40,7 @@ export default function SignUpPage() {
             const login_response = await axios.post("http://localhost:8000/users/signin/", values)
             console.log(login_response.data)
             console.log(tokenManager.getAccessToken())
+            dispatch({type: "LOGIN_SUCCESS", payload: login_response.data})
         }catch(error){
             console.log(error)
         }

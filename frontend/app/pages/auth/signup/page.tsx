@@ -218,7 +218,7 @@ export default function SignUpPage() {
                                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F0F0F5'}
                                     onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FFFFFF'}
                                 >
-                                    <Linkedin size={20}/>
+                                    <Linkedin size={20 }/>
                                     Linked in
                                 </button>
                             </div>
