@@ -50,32 +50,50 @@ def get_single_service(request):
                 "message": "Service ID is required",
             }, status=status.HTTP_400_BAD_REQUEST)
         
-        # Get the service instance with related data
-        service_instance = models.Services.objects.get(id=service_id)
+        # Get the service with all related data using prefetch_related
+        service_instance = models.Services.objects.prefetch_related(
+            'service_packages__package_list',  # Prefetch packages and their lists
+            'service_main_keypoints'  # Prefetch keypoints
+        ).get(id=service_id)
         
         # Serialize the main service
         service_serializer = serializers.ServiceSerializers(service_instance)
-
+        
+        # Get service packages
         service_packages_queryset = service_instance.service_packages.all() #type: ignore
         service_packages = serializers.ServicePackages(
             service_packages_queryset,
             many=True
         )
         
-        # Get service main points - filter by current service
-        service_listpoints = models.ServicesMainKeyPoints.objects.filter(
-            service=service_instance
-        )
-        
+        # Get service main points
+        service_listpoints = service_instance.service_main_keypoints.all() #type: ignore
         service_main_points = serializers.ServiceMainKeyPoints(
             service_listpoints,
             many=True
         )
         
+        # Get packages pricing details
+        pricing_details = []
+        
+        for package in service_packages_queryset:
+            package_list_queryset = package.package_list.all()
+            package_list = serializers.PackageListSerializer(
+                package_list_queryset,
+                many=True
+            ).data
+            
+            pricing_details.append({
+                "package_id": str(package.id),
+                "package_name": package.name if hasattr(package, 'name') else "",  # Adjust field name
+                "package_list": package_list
+            })
+        
         return response.Response({
             "data": service_serializer.data,
             "packages": service_packages.data,
-            "keypoints": service_main_points.data
+            "keypoints": service_main_points.data,
+            "pricing_details": pricing_details
         }, status=status.HTTP_200_OK)
         
     except models.Services.DoesNotExist:
@@ -86,7 +104,6 @@ def get_single_service(request):
         return response.Response({
             "message": str(e),
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
         
 #get single package
 @decorators.api_view(["GET"])

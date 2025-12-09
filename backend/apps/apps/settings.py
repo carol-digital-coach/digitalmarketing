@@ -63,6 +63,8 @@ CORS_ALLOW_METHODS = (
     "OPTIONS"
 )
 
+CORS_ALLOW_CREDENTIALS = True
+
 CSRF_TRUSTED_ORIGINS = [
     "https://2ff6b79f1fba.ngrok-free.app/"
 ]
