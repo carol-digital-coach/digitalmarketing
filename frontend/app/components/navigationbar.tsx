@@ -6,7 +6,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { Menu, LogOut, User } from "lucide-react";
 import { colors } from "@/lib/colors";
 
 const navigationItems = [
@@ -110,11 +110,11 @@ export default function NavigationBar() {
       "
                                         >
                                             {/* Avatar remains static */}
-                                            <img
+                                            {state ? <img
                                                 className="rounded-full w-9 h-9 object-cover border-2 border-white/50 shrink-0"
-                                                src={state ? state.user?.user?.avatar : "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"}
+                                                src={state && state.user?.user?.avatar}
                                                 alt="User Avatar"
-                                            />
+                                            /> : <User size={24}/>}
 
                                             {/* Username: Collapsed by default, expands on parent hover */}
                                             <div className="
@@ -194,10 +194,90 @@ export default function NavigationBar() {
                         )}
                         style={{ backgroundColor: colors.base }}
                     >
-                        <div className="flex justify-end w-full mb-2 p-4 overflow-hidden">
+                        <div className="flex justify-between items-center w-full p-4">
+                            {/* Left side - User profile dropdown */}
+                            <div className={!state.user ? "hidden" : "relative"}>
+                                <DropdownMenu modal={false}>
+                                    <DropdownMenuTrigger asChild>
+                                        <div
+                                            className="
+                                                group
+                                                flex items-center 
+                                                p-1
+                                                rounded-full 
+                                                cursor-pointer
+                                                bg-[var(--site-pink)]   
+                                                text-white       
+                                                shadow-md        
+                                                transition-all   
+                                                duration-500     
+                                                hover:bg-pink-600 
+                                                hover:pr-5
+                                                hover:shadow-lg
+                                                ring-offset-background
+                                                focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2
+                                            "
+                                        >
+                                            {state ? <img
+                                                className="rounded-full w-9 h-9 object-cover border-2 border-white/50 shrink-0"
+                                                src={state && state.user?.user?.avatar}
+                                                alt="User Avatar"
+                                            /> : <User size={24}/>}
+                                            <div className="
+                                                grid grid-cols-[0fr] 
+                                                group-hover:grid-cols-[1fr] 
+                                                transition-all 
+                                                duration-500 
+                                                ease-in-out
+                                            ">
+                                                <p className="
+                                                    overflow-hidden 
+                                                    whitespace-nowrap 
+                                                    text-sm 
+                                                    font-semibold 
+                                                    opacity-0 
+                                                    group-hover:opacity-100 
+                                                    group-hover:ml-3
+                                                    transition-all 
+                                                    duration-500
+                                                ">
+                                                    {state ? state.user?.user?.username : "Account"}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </DropdownMenuTrigger>
+
+                                    <DropdownMenuContent className="w-48 mt-2 p-1 border-slate-200">
+                                        <DropdownMenuLabel className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase">
+                                            My Account
+                                        </DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+
+                                        {/* <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-slate-100 rounded-md">
+                                            View Account
+                                        </DropdownMenuItem> */}
+
+                                        {state.user?.user?.super_user && (
+                                            <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-slate-100 rounded-md">
+                                                <Link href="/admin/dashboard" target="_blank">
+                                                    <button>Admin Dashboard</button>
+                                                </Link>
+                                            </DropdownMenuItem>
+                                        )}
+
+                                        <DropdownMenuSeparator />
+
+                                        <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-red-50 text-red-600 font-medium rounded-md">
+                                            <button onClick={() => dispatch({ type: "LOGOUT" })}>
+                                                Logout
+                                            </button>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </div>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
+                                className="h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center ml-auto"
                             >
                                 <X className="h-6 w-6 text-white" />
                             </button>
@@ -221,34 +301,89 @@ export default function NavigationBar() {
                         </div>
 
                         <div className="flex flex-col space-y-4 pt-5 w-full max-w-[240px] h-[300px]">
-                            <Link
-                                href={{ pathname : `/pages/auth/signin` }}
-                            >
+                            {state.user ?
                                 <button
-                                    className="h-15 w-full py-3 text-sm font-bold uppercase rounded-full transition-all duration-300 border"
-                                    style={{ color: colors.soft, borderColor: colors.soft }}
-                                    onMouseOver={e => { e.currentTarget.style.borderColor = colors.pop; e.currentTarget.style.color = colors.pop; }}
-                                    onMouseOut={e => { e.currentTarget.style.borderColor = colors.soft; e.currentTarget.style.color = colors.soft; }}
-                                    onClick={() => setIsOpen(false)}                 
+                                    className="
+                                        relative
+                                        h-12 
+                                        w-full 
+                                        text-white 
+                                        text-sm 
+                                        font-semibold 
+                                        uppercase 
+                                        tracking-wide
+                                        rounded-full 
+                                        transition-all 
+                                        duration-300 
+                                        bg-[var(--site-pink)]
+                                        hover:bg-pink-600
+                                        hover:shadow-lg
+                                        hover:shadow-pink-500/20
+                                        active:bg-pink-700
+                                        active:shadow-none
+                                        focus:outline-none 
+                                        focus:ring-2 
+                                        focus:ring-pink-400 
+                                        focus:ring-offset-2
+                                        flex 
+                                        items-center 
+                                        justify-center 
+                                        gap-3
+                                        px-6
+                                        overflow-hidden
+                                        group
+                                    "
+                                    onClick={() => dispatch({ type: "LOGOUT" })}
                                 >
-                                    Login
+                                    {/* Optional shimmer effect on hover */}
+                                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></span>
+
+                                    <span className="relative">Logout</span>
+                                    <LogOut
+                                        size={20}
+                                        className="
+                                            relative
+                                            transition-transform 
+                                            duration-300 
+                                            group-hover:translate-x-1
+                                            group-active:scale-90
+                                        "
+                                    />
                                 </button>
-                            </Link>
-                            <Link
-                                href={{ pathname : `/pages/auth/signup` }}
-                            >
-                                <button
-                                    className="h-15 w-full py-3 text-sm font-bold uppercase rounded-full transition-all duration-300 shadow-lg"
-                                    style={{ backgroundColor: colors.pop, color: 'white' }}
-                                    onMouseOver={e => e.currentTarget.style.backgroundColor = colors.soft}
-                                    onMouseOut={e => e.currentTarget.style.backgroundColor = colors.pop}
-                                    onClick={() => setIsOpen(false)}    
+                                :
+                                <div
+                                className="flex flex-col space-y-4 pt-5 w-full max-w-[240px] h-[300px]"
                                 >
-                                    <Link href="/pages/auth/signup">
-                                        Get Started
+                                    <Link
+                                        href={{ pathname: `/pages/auth/signin` }}
+                                    >
+                                        <button
+                                            className="h-15 w-full py-3 text-sm font-bold uppercase rounded-full transition-all duration-300 border"
+                                            style={{ color: colors.soft, borderColor: colors.soft }}
+                                            onMouseOver={e => { e.currentTarget.style.borderColor = colors.pop; e.currentTarget.style.color = colors.pop; }}
+                                            onMouseOut={e => { e.currentTarget.style.borderColor = colors.soft; e.currentTarget.style.color = colors.soft; }}
+                                            onClick={() => setIsOpen(false)}
+                                        >
+                                            Login
+                                        </button>
                                     </Link>
-                                </button>
-                            </Link>
+                                    <Link
+                                        href={{ pathname: `/pages/auth/signup` }}
+                                    >
+                                        <button
+                                            className="h-15 w-full py-3 text-sm font-bold uppercase rounded-full transition-all duration-300 shadow-lg"
+                                            style={{ backgroundColor: colors.pop, color: 'white' }}
+                                            onMouseOver={e => e.currentTarget.style.backgroundColor = colors.soft}
+                                            onMouseOut={e => e.currentTarget.style.backgroundColor = colors.pop}
+                                            onClick={() => setIsOpen(false)}
+                                        >
+                                            <Link href="/pages/auth/signup">
+                                                Get Started
+                                            </Link>
+                                        </button>
+                                    </Link>
+                                </div>
+                            }
                         </div>
                     </div>
 

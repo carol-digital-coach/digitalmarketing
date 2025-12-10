@@ -110,6 +110,7 @@ export default function ServicesPage() {
         queryKey: ["services"],
         queryFn: async () => {
             const data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}services/`)
+            // console.log(data)
             return data.data
         }
     })
