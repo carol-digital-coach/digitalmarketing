@@ -5,7 +5,7 @@ import { ScrollFadeIn } from '@/app/components/scrollanimation';
 import { useQuery } from '@tanstack/react-query';
 import axios from "axios"
 import { usePathname, useSearchParams } from 'next/navigation';
-
+import { Suspense } from 'react';
 
 const seoData = {
     "data": {
@@ -68,8 +68,17 @@ const formatPrice = (price: any) => {
     }).format(price);
 };
 
+interface PricingDetail {
+    package_id: string;
+    package_name: string;
+    package_list: Array<{
+        id: string;
+        title: string;
+        package: string;
+    }>;
+}
 
-const App = () => {
+function PackageComponent (){
     const pathname = usePathname()
 
 
@@ -83,7 +92,6 @@ const App = () => {
         }
     })
 
-    console.log(data?.data?.pricing_details)
 
     return (
         <div className="min-h-screen font-[Inter] antialiased selection:bg-pink-500 selection:text-white" style={{ backgroundColor: colors.background }}>
@@ -113,7 +121,7 @@ const App = () => {
 
                         {/* Right Column: Feature Cards */}
                         <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6 overflow-hidden p-2">
-                            {data?.data?.keypoints.map((point, index) => {
+                            {data?.data?.keypoints.map((point: any, index: any) => {
                                 const Icon = [Cpu, Target, TrendingUp, Globe, Aperture][index % 5];
                                 const descriptions = [
                                     "Deep-dive technical audits to ensure your foundation is flawless for crawlers.",
@@ -166,7 +174,7 @@ const App = () => {
                     </ScrollFadeIn>
 
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-3 items-center p-2 overflow-hidden">
-                        {data?.data?.packages.map((pkg, index) => {
+                        {data?.data?.packages.map((pkg: any, index: any) => {
                             const isFeatured =
                                 pkg.name.toLowerCase().includes("pro") ||
                                 pkg.name.toLowerCase().includes('full') ||
@@ -176,7 +184,7 @@ const App = () => {
                             const maxPrice = formatPrice(pkg.max_price);
 
                             const packageDetails = data?.data?.pricing_details?.find(
-                                detail => detail.package_id === pkg.id
+                                (detail: PricingDetail) => detail.package_id === pkg.id
                             );
 
                             return (
@@ -212,7 +220,7 @@ const App = () => {
 
                                         {/* FIXED: Use packageDetails.package_list instead of data?.data?.pricing_details?.package_list */}
                                         <ul className="space-y-4 mb-6">
-                                            {packageDetails?.package_list?.map((item, itemIndex) => (
+                                            {packageDetails?.package_list?.map((item: any, itemIndex: any) => (
                                                 <li key={itemIndex} className="flex items-start">
                                                     <CheckCircle
                                                         size={18}
@@ -259,4 +267,14 @@ const App = () => {
     );
 };
 
-export default App;
+export default function PackagePage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            </div>
+        }>
+            <PackageComponent />
+        </Suspense>
+    )
+}

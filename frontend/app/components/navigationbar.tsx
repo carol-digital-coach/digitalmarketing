@@ -36,7 +36,6 @@ export default function NavigationBar() {
     const current_path = usePathname()
     const router = useRouter()
     const { state, dispatch } = useUserAuth()
-    // console.log(state.user)
 
     return (
         <nav
@@ -113,7 +112,7 @@ export default function NavigationBar() {
                                             {/* Avatar remains static */}
                                             <img
                                                 className="rounded-full w-9 h-9 object-cover border-2 border-white/50 shrink-0"
-                                                src={state ? state.user.user.avatar : "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"}
+                                                src={state ? state.user?.user?.avatar : "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"}
                                                 alt="User Avatar"
                                             />
 
@@ -136,7 +135,7 @@ export default function NavigationBar() {
                                                     transition-all 
                                                     duration-500
                                                 ">
-                                                    {state ? state.user.user.username : "Account"}
+                                                    {state ?  state.user?.user?.username: "Account"}
                                                 </p>
                                             </div>
                                         </div>

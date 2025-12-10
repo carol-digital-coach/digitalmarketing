@@ -14,60 +14,18 @@ const colors = {
     textMuted: '#A3A3A3',
     border: '#333333'
 };
+import { ScrollFadeIn } from '@/app/components/scrollanimation';
+import { Input } from '@/components/ui/input';
 
-// --- Animation Component: RevealOnScroll ---
-const RevealOnScroll = ({ children, className = "", delay = 0 }) => {
-    const [isVisible, setIsVisible] = useState(false);
-    const ref = useRef(null);
+interface textArea {
+    label: string,
+    id: any,
+    value: string,
+    onChange: any,
+    placeholder: string
+}
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.unobserve(entry.target);
-                }
-            },
-            { threshold: 0.1 }
-        );
-        if (ref.current) observer.observe(ref.current);
-        return () => {
-            if (ref.current) observer.unobserve(ref.current);
-        };
-    }, []);
-
-    return (
-        <div
-            ref={ref}
-            className={`${className} transition-all duration-700 transform ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-            }`}
-            style={{ transitionDelay: `${delay}ms` }}
-        >
-            {children}
-        </div>
-    );
-};
-
-// --- Custom Form Components ---
-const InputField = ({ label, id, value, onChange, type = 'text', placeholder, className = '' }) => (
-    <div className={`mb-6 ${className}`}>
-        <label htmlFor={id} className="block text-sm font-medium mb-2 text-white">
-            {label}
-        </label>
-        <input
-            type={type}
-            id={id}
-            value={value}
-            onChange={onChange}
-            placeholder={placeholder}
-            className="w-full p-3 rounded-md border outline-none bg-white"
-            
-        />
-    </div>
-);
-
-const TextAreaField = ({ label, id, value, onChange, placeholder }) => (
+const TextAreaField = ({ label, id, value, onChange, placeholder } : textArea) => (
     <div className="mb-6">
         <label htmlFor={id} className="block text-sm font-medium mb-2 text-white">
             {label}
@@ -77,7 +35,6 @@ const TextAreaField = ({ label, id, value, onChange, placeholder }) => (
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
-            rows="3"
             className="w-full p-3 rounded-lg border focus:ring-2 focus:outline-none resize-none bg-white"
         />
     </div>
@@ -99,12 +56,12 @@ export default function AdminServiceCreator() {
     const [message, setMessage] = useState('');
     const [isError, setIsError] = useState(false);
 
-    const handleInputChange = (e) => {
+    const handleInputChange = (e: any) => {
         const { id, value } = e.target;
         setFormData(prev => ({ ...prev, [id]: value }));
     };
 
-    const handleKeyPointChange = (id, value) => {
+    const handleKeyPointChange = (id:any, value:any) => {
         setFormData(prev => ({
             ...prev,
             keyPoints: prev.keyPoints.map(kp =>
@@ -120,7 +77,7 @@ export default function AdminServiceCreator() {
         }));
     };
 
-    const removeKeyPoint = (id) => {
+    const removeKeyPoint = (id:any) => {
         setFormData(prev => ({
             ...prev,
             keyPoints: prev.keyPoints.filter(kp => kp.id !== id),
@@ -150,8 +107,7 @@ export default function AdminServiceCreator() {
     const ServiceInfoTab = () => (
         <>
             <h2 className="text-2xl font-bold mb-6 text-white">1. Core Details</h2>
-            <InputField 
-                label="Service Title (e.g., SEO Consultation)" 
+            <Input 
                 id="serviceTitle" 
                 value={formData.serviceTitle} 
                 onChange={handleInputChange} 
@@ -174,8 +130,7 @@ export default function AdminServiceCreator() {
             <div className="space-y-4 mb-6">
                 {formData.keyPoints.map((kp, index) => (
                     <div key={kp.id} className="flex items-center space-x-3">
-                        <InputField
-                            label={`Key Point ${index + 1}`}
+                        <Input
                             id={`keyPoint-${kp.id}`}
                             value={kp.title}
                             onChange={(e) => handleKeyPointChange(kp.id, e.target.value)}
@@ -210,16 +165,14 @@ export default function AdminServiceCreator() {
     const PricingTab = () => (
         <>
             <h2 className="text-2xl font-bold mb-6" style={{ color: colors.highlight }}>3. Package Details</h2>
-            <InputField 
-                label="Package Name" 
+            <Input 
                 id="package1Name" 
                 value={formData.package1Name} 
                 onChange={handleInputChange} 
                 placeholder="e.g., Standard SEO"
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <InputField 
-                    label="Min Price (USD)" 
+                <Input 
                     id="package1MinPrice" 
                     type="number" 
                     value={formData.package1MinPrice} 
@@ -227,8 +180,7 @@ export default function AdminServiceCreator() {
                     placeholder="e.g., 35000"
                     className="mb-0"
                 />
-                <InputField 
-                    label="Max Price (USD)" 
+                <Input 
                     id="package1MaxPrice" 
                     type="number" 
                     value={formData.package1MaxPrice} 
@@ -260,17 +212,17 @@ export default function AdminServiceCreator() {
             <div className="container mx-auto max-w-6xl py-12">
                 
                 {/* Header */}
-                <RevealOnScroll>
+                <ScrollFadeIn>
                     <div className="flex items-center mb-10 border-b pb-4" style={{ borderColor: colors.border }}>
                         <Settings size={32} />
                         <h1 className="text-3xl font-bold ml-4">
                             Add New Service Package
                         </h1>
                     </div>
-                </RevealOnScroll>
+                </ScrollFadeIn>
 
                 {message && (
-                    <RevealOnScroll delay={100}>
+                    <ScrollFadeIn delay={100}>
                         <div 
                             className={`p-4 rounded-lg mb-6 flex items-center ${isError ? 'bg-red-900 border-red-700' : 'bg-green-900 border-green-700'}`}
                             style={{ border: '1px solid' }}
@@ -280,7 +232,7 @@ export default function AdminServiceCreator() {
                                 {message}
                             </p>
                         </div>
-                    </RevealOnScroll>
+                    </ScrollFadeIn>
                 )}
 
                 {/* Tabbed Form Container */}
@@ -315,14 +267,14 @@ export default function AdminServiceCreator() {
 
                         {/* Right: Tab Content Area */}
                         <div className="lg:col-span-9 p-6 lg:p-0 lg:p-4">
-                            <RevealOnScroll key={activeTab}>
+                            <ScrollFadeIn key={activeTab}>
                                 <ActiveComponent />
-                            </RevealOnScroll>
+                            </ScrollFadeIn>
                         </div>
                     </div>
 
                     {/* Submit Button */}
-                    <RevealOnScroll delay={500}>
+                    <ScrollFadeIn delay={500}>
                         <button
                             type="button"
                             onClick={handleSubmit}
@@ -344,7 +296,7 @@ export default function AdminServiceCreator() {
                         <p className="text-center text-xs mt-2" style={{ color: colors.textMuted }}>
                             Form submission is simulated client-side.
                         </p>
-                    </RevealOnScroll>
+                    </ScrollFadeIn>
                 </div>
             </div>
         </div>

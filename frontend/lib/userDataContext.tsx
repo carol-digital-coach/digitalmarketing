@@ -1,26 +1,38 @@
 "use client"
 
-import { NodejsRequestData } from "next/dist/server/web/types"
-import {FC, createContext, useContext, ReactNode, useState, useReducer, Dispatch, useEffect, useRef} from "react"
+import { FC, createContext, useContext, ReactNode, useReducer, Dispatch, useEffect, useRef } from "react"
 
-
-interface UserData {
-    user: null,
-    access_token: string | null,
-    refresh_token: string | null
+export interface UserInfo {
+    avatar: string;
+    email: string;
+    super_user: boolean;
+    username: string;
 }
+
+export interface AuthResponse {
+    access: string;
+    cookie_expiration: {
+        access_expire: string;
+        refresh_expire: string;
+    };
+    message: string;
+    refresh: string;
+    user: UserInfo;
+}
+
+
+export type AuthUserState = {
+    user: AuthResponse | null;
+    isLoading: boolean;
+    error: string | null;
+}
+
 
 type AuthAction = 
-    | {type: "LOGIN_REQUEST"} 
-    | {type: "LOGIN_SUCCESS", payload: UserData}
-    | {type: "LOGIN_FAIL", payload: string}
-    | {type: "LOGOUT"}
-
-export type AuthUserState  = {
-    user: UserData | null,
-    isLoading: boolean,
-    error: string | null
-}
+    | { type: "LOGIN_REQUEST" } 
+    | { type: "LOGIN_SUCCESS", payload: AuthResponse }  
+    | { type: "LOGIN_FAIL", payload: string }
+    | { type: "LOGOUT" }
 
 const InitialUserState: AuthUserState = {
     user: null,
@@ -28,26 +40,25 @@ const InitialUserState: AuthUserState = {
     error: null
 }
 
-
 const UserAuthReducer = (state: AuthUserState, action: AuthAction): AuthUserState => {
     switch(action.type){
         case "LOGIN_REQUEST":
-            return{
+            return {
                 ...state,
                 isLoading: true,
                 error: null
             };
 
         case "LOGIN_SUCCESS":
-            return{
+            return {
                 ...state,
                 isLoading: false,
-                user: action.payload,
+                user: action.payload, 
                 error: null
             };
 
         case "LOGIN_FAIL":
-            return{
+            return {
                 ...state,
                 isLoading: false,
                 user: null,
@@ -55,24 +66,53 @@ const UserAuthReducer = (state: AuthUserState, action: AuthAction): AuthUserStat
             };
 
         case "LOGOUT":
-            return{
+            return {
                 user: null, 
                 isLoading: false,
                 error: null
             };
 
         default:
-            return state
+            return state;
     }
 }
 
-const userContext = createContext<{
-    state: AuthUserState, 
-    dispatch: Dispatch<AuthAction>
-} | null>(null)
+export const getUserInfo = (state: AuthUserState): UserInfo | null => {
+    return state.user?.user || null;
+}
 
+export const getUsername = (state: AuthUserState): string => {
+    return state.user?.user?.username || "Guest";
+}
 
-export const AuthContextUserProvider:FC<{children : ReactNode}> = ({children}) => {
+export const getUserAvatar = (state: AuthUserState): string => {
+    return state.user?.user?.avatar || "/default-avatar.png";
+}
+
+export const getUserEmail = (state: AuthUserState): string => {
+    return state.user?.user?.email || "";
+}
+
+export const isSuperUser = (state: AuthUserState): boolean => {
+    return state.user?.user?.super_user || false;
+}
+
+export const getAccessToken = (state: AuthUserState): string | null => {
+    return state.user?.access || null;
+}
+
+export const getRefreshToken = (state: AuthUserState): string | null => {
+    return state.user?.refresh || null;
+}
+
+interface UserContextType {
+    state: AuthUserState;
+    dispatch: Dispatch<AuthAction>;
+}
+
+const userContext = createContext<UserContextType | null>(null);
+
+export const AuthContextUserProvider: FC<{children: ReactNode}> = ({ children }) => {
     const [state, dispatch] = useReducer(UserAuthReducer, InitialUserState);
     const logOutTimer = useRef<NodeJS.Timeout | null>(null); 
 
@@ -81,23 +121,24 @@ export const AuthContextUserProvider:FC<{children : ReactNode}> = ({children}) =
 
         if (storedUser) {
             try {
-                const userObject = JSON.parse(storedUser);
-                const tokenExpiry = userObject.tokenExpiry; 
+                const userObject: AuthResponse = JSON.parse(storedUser);
                 
-                if (tokenExpiry && Date.now() >= tokenExpiry) {
-                    dispatch({ type: "LOGOUT" });
-                    localStorage.removeItem("userdata");
-                    console.log("User logged out automatically: Token expired on load.");
-                } else {
+                if (userObject?.access && userObject?.user && userObject?.cookie_expiration) {
                     dispatch({ type: "LOGIN_SUCCESS", payload: userObject });
+                } else {
+                    console.error("Invalid user data structure in localStorage");
+                    localStorage.removeItem("userdata");
+                    dispatch({ type: "LOGOUT" });
                 }
 
             } catch (error) {
                 console.error("Failed to parse user data from localStorage", error);
                 localStorage.removeItem("userdata");
+                dispatch({ type: "LOGOUT" });
             }
         }
-    }, [])
+    }, []);
+
     useEffect(() => {
         if (state.user) {   
             localStorage.setItem("userdata", JSON.stringify(state.user));
@@ -106,52 +147,45 @@ export const AuthContextUserProvider:FC<{children : ReactNode}> = ({children}) =
         }
     }, [state.user]);
 
-
     useEffect(() => {
         if (logOutTimer.current) {
             clearTimeout(logOutTimer.current);
             logOutTimer.current = null;
         }
 
-        const accessDurationSeconds = parseInt(state.user?.cookie_expiration?.access_expire, 10);
-        
-        if (state.user && accessDurationSeconds > 0) {
+        if (state.user && state.user.cookie_expiration) {
+            const accessDurationSeconds = parseInt(state.user.cookie_expiration.access_expire, 10);
             
-            const accessDurationMs = accessDurationSeconds * 1000;
-            const absoluteExpiryTime = Date.now() + accessDurationMs;
-
-            
-            const timeUntilExpiry = absoluteExpiryTime - Date.now();
-
-            
-            if (timeUntilExpiry > 0) {
+            if (!isNaN(accessDurationSeconds) && accessDurationSeconds > 0) {
+                const accessDurationMs = accessDurationSeconds * 1000;
+                
                 logOutTimer.current = setTimeout(() => {
                     dispatch({ type: "LOGOUT" });
-                    console.log("User logged out automatically.");
-                }, timeUntilExpiry); 
+                    console.log("User logged out automatically: Token expired.");
+                }, accessDurationMs);
             }
         }
 
         return () => {
             if (logOutTimer.current) {
                 clearTimeout(logOutTimer.current);
+                logOutTimer.current = null;
             }
         };
-    }, [state.user]); 
+    }, [state.user]);
 
-
-
-    const contextValue = {
+    const contextValue: UserContextType = {
         state, 
         dispatch 
     };
 
-    return(
+    return (
         <userContext.Provider value={contextValue}>
             {children}
         </userContext.Provider>
-    )
+    );
 }
+
 export const useUserAuth = () => {
     const context = useContext(userContext);
     
@@ -160,4 +194,21 @@ export const useUserAuth = () => {
     }
     
     return context;
+}
+
+export const useCurrentUser = () => {
+    const { state } = useUserAuth();
+    
+    return {
+        user: getUserInfo(state),
+        username: getUsername(state),
+        avatar: getUserAvatar(state),
+        email: getUserEmail(state),
+        isSuperUser: isSuperUser(state),
+        accessToken: getAccessToken(state),
+        refreshToken: getRefreshToken(state),
+        isLoading: state.isLoading,
+        error: state.error,
+        isAuthenticated: !!state.user
+    };
 }

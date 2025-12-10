@@ -3,7 +3,6 @@ import React from 'react';
 import { useUserAuth } from "@/lib/userDataContext";
 import { User, Activity, ShoppingCart, BookOpen } from 'lucide-react';
 
-// --- Type Definitions (Assuming structure from context) ---
 interface UserDetails {
   username: string;
 }
@@ -11,7 +10,7 @@ interface UserDetails {
 interface AuthState {
   user: {
     user: UserDetails;
-  } | null;
+  } | "";
 }
 
 interface DashboardStats {
@@ -21,22 +20,21 @@ interface DashboardStats {
     pendingOrders: number;
 }
 
-// Mocking the data that would typically come from an API
 const mockStats: DashboardStats = {
-    totalUsers: 4520,
-    totalServices: 18,
-    totalCourses: 55,
-    pendingOrders: 12,
+    totalUsers: 0,
+    totalServices: 0,
+    totalCourses: 0,
+    pendingOrders: 0,
 };
 
-// --- Sub-Component: Stat Card ---
 
 interface StatCardProps {
     title: string;
     value: number | string;
     icon: React.ElementType;
-    colorClass: string; // To allow color customization
+    colorClass: string;
 }
+
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, colorClass }) => (
     <div className="bg-white p-5  border border-gray-100 overflow-hidden">
@@ -53,28 +51,21 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, colorClas
 );
 
 
-// --- Main Component ---
-
 export default function AdminDashboard(){
 
-    // Type assertion for clarity
-    const { state }: { state: AuthState } = useUserAuth(); 
-    const userName = state.user?.user?.username || 'Admin';
+    const { state } = useUserAuth(); 
+    const userName: string = state.user?.user?.username || 'Admin';
 
     return(
-        // The main container for the dashboard content, excluding the sidebar
-        // Assume this component is rendered inside a layout that handles sidebar positioning.
         <div className="flex-1 p-6 md:p-10 min-h-screen bg-gray-50"> 
             <div className="max-w-7xl mx-auto">
                 
-                {/* 1. Header & Welcome Message */}
                 <header className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-900">
                         👋 Weclome {userName} !
                     </h1>
                 </header>
 
-                {/* 2. Stats Grid (KPIs) */}
                 <h2 className="text-xl font-semibold text-gray-800 mb-4">Key Metrics</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 overflow-hidden">
                     <StatCard 
@@ -103,12 +94,10 @@ export default function AdminDashboard(){
                     />
                 </div>
                 
-                {/* 3. Detailed Sections (Charts & Recent Activity) */}
                 <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
 
 
-                    {/* Recent Activity Log */}
-                    <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                    <div className="hidden lg:col-span-1 bg-white p-6 rounded-xl shadow-lg border border-gray-100">
                         <h2 className="text-xl font-semibold text-gray-800 mb-4">Recent System Log</h2>
                         <ul className="space-y-4">
                             <li className="flex items-center space-x-3">
