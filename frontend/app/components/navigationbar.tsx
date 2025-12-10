@@ -31,7 +31,6 @@ import {
 
 
 
-
 export default function NavigationBar() {
     const [isOpen, setIsOpen] = useState(false);
     const current_path = usePathname()
@@ -59,15 +58,9 @@ export default function NavigationBar() {
                                 <a
                                     key={item.name}
                                     href={item.href}
-<<<<<<< HEAD
-                                    className={current_path == item.href ? 
-                                        "text-sm font-medium uppercase  tracking-widest text-[var(--site-pink)] relative group transition-colors p-2 overflow-y-hidden hover:text-[var(--site-pink)]" 
-                                        : 
-=======
                                     className={current_path == item.href ?
                                         "text-sm font-medium uppercase  tracking-widest text-[var(--site-pink)] relative group transition-colors p-2 overflow-y-hidden hover:text-[var(--site-pink)]"
                                         :
->>>>>>> upstream/dev
                                         "text-sm font-medium uppercase  tracking-widest text-white relative group transition-colors p-2 overflow-y-hidden hover:text-[var(--site-pink)]"}
                                 >
                                     {item.name}
@@ -83,16 +76,6 @@ export default function NavigationBar() {
                         </div>
                         <div className="flex items-center space-x-4">
 
-<<<<<<< HEAD
-                            <button className="hidden px-6 py-2 text-sm font-bold uppercase rounded-sm transition-all duration-300 shadow-lg cursor-pointer"
-                                style={{ backgroundColor: colors.pop, color: 'white' }}
-                                onMouseOver={e => e.currentTarget.style.backgroundColor = colors.soft}
-                                onMouseOut={e => e.currentTarget.style.backgroundColor = colors.pop}
-                                // onClick={() => router.push("/pages/auth/signup")}
-                            >
-                                <Link href="/pages/auth/signup" passHref>
-                                        Get Started
-=======
                             {!state.user ?
                                 <Link href="/pages/auth/signin" passHref>
                                     <button className="px-6 py-2 text-sm font-bold uppercase rounded-sm transition-all duration-300 shadow-lg cursor-pointer"
@@ -103,7 +86,6 @@ export default function NavigationBar() {
                                     >
                                         Login
                                     </button>
->>>>>>> upstream/dev
                                 </Link>
                                 :
                                 <DropdownMenu modal={false}>
