@@ -36,7 +36,7 @@ export default function NavigationBar() {
     const current_path = usePathname()
     const router = useRouter()
     const { state, dispatch } = useUserAuth()
-    console.log(state.user)
+    // console.log(state.user)
 
     return (
         <nav

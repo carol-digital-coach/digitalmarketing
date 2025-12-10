@@ -192,7 +192,7 @@ export default function ServicesPage() {
                                             ))}
                                         </div>
 
-                                        <Link href="/pages/package">
+                                        <Link href={{pathname: "/pages/package", query: `requested_package=${category.id}`}}>
                                             <button className="p-2 mt-auto w-full text-white text-lg font-bold py-3 rounded-md transition-all duration-300 bg-[var(--site-black)]  hover:shadow-sm hover:bg-[var(--site-pink)] hover:cursor-pointer">
                                                 Get {category.title.slice(0, 18)}...
                                             </button>
