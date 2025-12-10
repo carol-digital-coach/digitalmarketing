@@ -86,7 +86,7 @@ function PackageComponent (){
     const { data, isLoading, error } = useQuery({
         queryKey: ['service'],
         queryFn: async () => {
-            const data = axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_TEST}services/service/?id=${search_params.get("requested_package")}`)
+            const data = axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}services/service/?id=${search_params.get("requested_package")}`)
             return data
         }
     })

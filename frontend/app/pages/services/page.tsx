@@ -109,7 +109,7 @@ export default function ServicesPage() {
     const { data, isLoading, error } = useQuery({
         queryKey: ["services"],
         queryFn: async () => {
-            const data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_TEST}services/`)
+            const data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}services/`)
             return data.data
         }
     })
