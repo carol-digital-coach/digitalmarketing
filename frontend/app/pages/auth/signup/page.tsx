@@ -42,7 +42,6 @@ export default function SignUpPage() {
             setTimeout(() => {
                 redirect("/pages/auth/signin")
             }, 1000)
-            console.log(response.data)
         }catch(error){
             console.log(error)
         }

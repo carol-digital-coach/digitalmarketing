@@ -78,7 +78,6 @@ export default function SignUpPage() {
         }
     }
 
-    console.log(state)
 
 
     return (

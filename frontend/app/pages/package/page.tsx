@@ -83,7 +83,6 @@ function PackageComponent (){
 
 
     const search_params = useSearchParams()
-    console.log(search_params.get("requested_package"))
     const { data, isLoading, error } = useQuery({
         queryKey: ['service'],
         queryFn: async () => {

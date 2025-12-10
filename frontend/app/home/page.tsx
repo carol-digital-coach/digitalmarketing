@@ -11,7 +11,6 @@ import { tokenManager } from "@/lib/tokenCache";
 import { Toaster } from "@/components/ui/sonner"
 
 export default function HomePage() {
-    console.log(tokenManager.getRefreshToken())
     return (
         <div className="min-h-screen bg-[var(--site-pink)] font-[var(--font-itim-regular)]">
             <div className="bg-[var(--site-pink)]/50">
