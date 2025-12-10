@@ -1,7 +1,8 @@
 from pathlib import Path
 from decouple import config
 from datetime import timedelta
-
+import dj_database_url
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,7 +17,11 @@ SECRET_KEY = 'django-insecure-you%k579m6^%c28=*wo==z3ospih73l*e4u@mpr6^^mwghgb+j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "2ff6b79f1fba.ngrok-free.app",
+    "localhost",
+    "127.0.0.1"
+    ]
 
 
 # Application definition
@@ -31,7 +36,8 @@ INSTALLED_APPS = [
     "rest_framework",
     'rest_framework_simplejwt',
     'corsheaders',
-    'users'
+    'users',
+    'datalib'
 ]
 
 MIDDLEWARE = [
@@ -58,6 +64,12 @@ CORS_ALLOW_METHODS = (
     "OPTIONS"
 )
 
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://2ff6b79f1fba.ngrok-free.app/"
+]
+
 ROOT_URLCONF = 'apps.urls'
 
 #Include authentication in restframework using jwt
@@ -68,7 +80,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME" : timedelta(minutes=20),
+    "ACCESS_TOKEN_LIFETIME" : timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME" : timedelta(days=1)
 }
 
@@ -93,12 +105,24 @@ AUTH_USER_MODEL = "users.PbUser"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+database_url = config("DATABASE_URL", default="")
+print(database_url)
+if database_url:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=database_url,  # Use the variable you already retrieved
+            conn_max_age=600, 
+            conn_health_checks=True, 
+        )
     }
-}
+else:
+    # Fallback to SQLite or another default
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation

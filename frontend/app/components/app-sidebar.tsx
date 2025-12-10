@@ -126,8 +126,12 @@ const data = {
 }
 
 export const AppSidebar: FC<{ children: ReactNode }> = ({ children }) => {
+
+    const [isOpen, setIsOpened] = React.useState<boolean>(true)
+    console.log(isOpen)
+
     return (
-        <div className="">
+        <div className="relative">
             <SidebarProvider>
                 <Sidebar collapsible="icon" className="bg-blue-300">
                     <SidebarHeader className="bg-[var(--site-pink)] text-white font-bold">
@@ -142,7 +146,18 @@ export const AppSidebar: FC<{ children: ReactNode }> = ({ children }) => {
                     </SidebarFooter>
                     <SidebarRail />
                 </Sidebar>
-                <SidebarTrigger>
+                <SidebarTrigger
+                    className={`
+                        absolute top-0 z-10 transition-all duration-300 ease-in-out
+                    ${isOpen
+                            ? 'left-4 lg:left-[16rem]'
+                            : 'left-4 lg:left-12'
+                        }
+    `}
+                    onClick={
+                        () => setIsOpened(!isOpen)
+                    }
+                >
                 </SidebarTrigger>
                 <SidebarInset>
                     <div>

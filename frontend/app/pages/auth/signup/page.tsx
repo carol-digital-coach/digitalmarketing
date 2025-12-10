@@ -17,6 +17,8 @@ import { Mail, Lock, User, Eye, EyeOff, Linkedin } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import axios from "axios"
+import toast from "react-hot-toast"
+import { redirect } from "next/navigation"
 
 
 export default function SignUpPage() {
@@ -36,6 +38,10 @@ export default function SignUpPage() {
     const OnSubmit = async(values: z.infer<typeof UserSignUpSchema>) => {
         try{
             const response = await axios.post("http://localhost:8000/users/signup/", values)
+            toast.success("Account created!")
+            setTimeout(() => {
+                redirect("/pages/auth/signin")
+            }, 1000)
             console.log(response.data)
         }catch(error){
             console.log(error)

@@ -2,6 +2,7 @@
 import { FC, ReactNode } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { AppSidebar } from "./components/app-sidebar"
+import { Toaster } from "@/components/ui/sonner"
 
 
 export const DashboardProvider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -12,11 +13,14 @@ export const DashboardProvider: FC<{ children: ReactNode }> = ({ children }) => 
 
     if (should_display) {
         return (
-            <div>
+            <div className={`${!should_display} ? "hidden" : " "`}>
                 <AppSidebar>{children}</AppSidebar>
+                <Toaster />
             </div>
         )   
     }
 
-    return <>{children}</>
+    return <>
+    {children}
+    </>
 }

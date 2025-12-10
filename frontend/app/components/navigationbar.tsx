@@ -19,6 +19,16 @@ const navigationItems = [
 ];
 import { X } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import { useUserAuth } from "@/lib/userDataContext";
+import {
+    DropdownMenuContent,
+    DropdownMenu,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+    DropdownMenuSeparator,
+    DropdownMenuLabel
+} from "@/components/ui/dropdown-menu";
+
 
 
 
@@ -26,6 +36,7 @@ export default function NavigationBar() {
     const [isOpen, setIsOpen] = useState(false);
     const current_path = usePathname()
     const router = useRouter()
+    const { state, dispatch } = useUserAuth()
 
     return (
         <nav
@@ -48,9 +59,15 @@ export default function NavigationBar() {
                                 <a
                                     key={item.name}
                                     href={item.href}
+<<<<<<< HEAD
                                     className={current_path == item.href ? 
                                         "text-sm font-medium uppercase  tracking-widest text-[var(--site-pink)] relative group transition-colors p-2 overflow-y-hidden hover:text-[var(--site-pink)]" 
                                         : 
+=======
+                                    className={current_path == item.href ?
+                                        "text-sm font-medium uppercase  tracking-widest text-[var(--site-pink)] relative group transition-colors p-2 overflow-y-hidden hover:text-[var(--site-pink)]"
+                                        :
+>>>>>>> upstream/dev
                                         "text-sm font-medium uppercase  tracking-widest text-white relative group transition-colors p-2 overflow-y-hidden hover:text-[var(--site-pink)]"}
                                 >
                                     {item.name}
@@ -66,6 +83,7 @@ export default function NavigationBar() {
                         </div>
                         <div className="flex items-center space-x-4">
 
+<<<<<<< HEAD
                             <button className="hidden px-6 py-2 text-sm font-bold uppercase rounded-sm transition-all duration-300 shadow-lg cursor-pointer"
                                 style={{ backgroundColor: colors.pop, color: 'white' }}
                                 onMouseOver={e => e.currentTarget.style.backgroundColor = colors.soft}
@@ -74,9 +92,110 @@ export default function NavigationBar() {
                             >
                                 <Link href="/pages/auth/signup" passHref>
                                         Get Started
+=======
+                            {!state.user ?
+                                <Link href="/pages/auth/signin" passHref>
+                                    <button className="px-6 py-2 text-sm font-bold uppercase rounded-sm transition-all duration-300 shadow-lg cursor-pointer"
+                                        style={{ backgroundColor: colors.pop, color: 'white' }}
+                                        onMouseOver={e => e.currentTarget.style.backgroundColor = colors.soft}
+                                        onMouseOut={e => e.currentTarget.style.backgroundColor = colors.pop}
+                                    // onClick={() => router.push("/pages/auth/signup")}
+                                    >
+                                        Login
+                                    </button>
+>>>>>>> upstream/dev
                                 </Link>
-                            </button>
+                                :
+                                <DropdownMenu modal={false}>
+                                    <DropdownMenuTrigger asChild>
+                                        <div
+                                            className="
+                                                group
+                                                flex items-center 
+                                                p-1
+                                                rounded-full 
+                                                cursor-pointer
+                                                bg-[var(--site-pink)]   
+                                                text-white       
+                                                shadow-md        
+                                                transition-all   
+                                                duration-500     
+                                                hover:bg-pink-600 
+                                                hover:pr-5 /* Adds padding back when name expands */
+                                                hover:shadow-lg
+                                                ring-offset-background
+                                                focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2
+      "
+                                        >
+                                            {/* Avatar remains static */}
+                                            <img
+                                                className="rounded-full w-9 h-9 object-cover border-2 border-white/50 shrink-0"
+                                                src={state ? state.user?.user?.avatar : "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"}
+                                                alt="User Avatar"
+                                            />
+
+                                            {/* Username: Collapsed by default, expands on parent hover */}
+                                            <div className="
+                                                grid grid-cols-[0fr] 
+                                                group-hover:grid-cols-[1fr] 
+                                                transition-all 
+                                                duration-500 
+                                                ease-in-out
+                                            ">
+                                                <p className="
+                                                    overflow-hidden 
+                                                    whitespace-nowrap 
+                                                    text-sm 
+                                                    font-semibold 
+                                                    opacity-0 
+                                                    group-hover:opacity-100 
+                                                    group-hover:ml-3
+                                                    transition-all 
+                                                    duration-500
+                                                ">
+                                                    {state ?  state.user?.user?.username: "Account"}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </DropdownMenuTrigger>
+
+                                    <DropdownMenuContent className="w-48 mt-2 p-1 border-slate-200">
+                                        <DropdownMenuLabel className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase">
+                                            My Account
+                                        </DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+
+                                        <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-slate-100 rounded-md">
+                                            View Account
+                                        </DropdownMenuItem>
+
+                                        {state.user?.user?.super_user && <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-slate-100 rounded-md">
+                                            <Link
+                                            href="/admin/dashboard"
+                                            target="_blank"
+                                            >
+                                                <button
+                                                
+                                                >
+                                                    Admin Dashboard
+                                                </button>
+                                            </Link>
+                                        </DropdownMenuItem>}
+
+                                        <DropdownMenuSeparator />
+
+                                        <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-red-50 text-red-600 font-medium rounded-md">
+                                            <button
+                                            onClick={() => dispatch({ type: "LOGOUT" })}
+                                            >
+                                                Logout
+                                            </button>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            }
                         </div>
+
                     </div>
 
                     <button

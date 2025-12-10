@@ -13,11 +13,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { UserSignUpSchema, UserLoginSchema } from "@/lib/zod"
 import { useState } from "react"
-import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, X } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import axios from  "axios"
 import { tokenManager } from "@/lib/tokenCache"
+import { useUserAuth } from "@/lib/userDataContext"
+import { toast } from "react-hot-toast"
+import { redirect } from "next/navigation"
 
 export default function SignUpPage() {
 
@@ -32,15 +35,50 @@ export default function SignUpPage() {
         }
     })
 
+    const {state, dispatch} = useUserAuth()
+
     const OnSubmit = async(values: z.infer<typeof UserLoginSchema>) => {
         try{
-            const login_response = await axios.post("http://localhost:8000/users/signin/", values)
-            console.log(login_response.data)
-            console.log(tokenManager.getAccessToken())
+            dispatch({type: "LOGIN_REQUEST"})
+            const login_response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_TEST}/users/signin/`, values, {
+                withCredentials: true
+            })
+            const get_user_data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_TEST}/users/get-user/`, {
+                headers: {
+                    Authorization: `Bearer ${login_response.data.access}`
+                }
+            })
+            const new_user_data = {
+                ...get_user_data.data,
+                ...login_response.data
+            }
+
+            toast.success("welcome back")
+            setTimeout(() => {
+                redirect("/home")
+            }, 1500)
+            dispatch({type: "LOGIN_SUCCESS", payload: new_user_data})
         }catch(error){
+            toast.error(`Invalid account credentials`, {
+                icon: (
+                    <div>
+                        <X size={15} className="text-white"/>
+                    </div>
+                ),
+                style: {
+                    background: "#ef4444",
+                    color: "#fff"
+                },
+                iconTheme: {
+                primary: "white",
+                secondary: "#ef4444",
+            },
+            })
             console.log(error)
         }
     }
+
+    console.log(state)
 
 
     return (

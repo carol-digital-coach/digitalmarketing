@@ -1,17 +1,51 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import axios from 'axios';
 
-export function middleware(request: NextRequest) {
-  const url = request.nextUrl.clone();
+export async function middleware(request: NextRequest) {
 
-  if (url.pathname === '/') {
-    url.pathname = '/home';
+    const accessCookie = request.cookies.get("access_cookie");
 
-    return NextResponse.redirect(url);
-  }
+    const cookie_value = accessCookie?.value;
 
-  return NextResponse.next();
+    console.log("Refresh Token from Request:", cookie_value);
+
+    const url = request.nextUrl.clone();
+
+    if (url.pathname == "/admin/dashboard" && cookie_value) {
+        try {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_TEST}/users/get-user/`, {
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${cookie_value}`
+                }
+            });
+
+            if (!response.data.user.super_user) {
+                return NextResponse.redirect("/home")
+            }
+
+            return NextResponse.next();
+
+        } catch (error) {
+            url.pathname = "/home";
+            return NextResponse.redirect(url);
+        }
+
+    } else if (url.pathname.startsWith("/admin/dashboard") && !cookie_value) {
+        url.pathname = "/pages/auth/signin";
+        return NextResponse.redirect(url);
+    }
+
+
+    if (url.pathname === '/') {
+        url.pathname = '/home';
+        return NextResponse.redirect(url);
+    }
+
+    return NextResponse.next();
 }
+
 export const config = {
-  matcher: ['/'],
+    matcher: ['/', '/admin/dashboard'],
 };
