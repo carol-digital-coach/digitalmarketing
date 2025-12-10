@@ -135,7 +135,7 @@ export default function NavigationBar() {
                                                     transition-all 
                                                     duration-500
                                                 ">
-                                                    {state ?  state.user?.user?.username: "Account"}
+                                                    {state ? state.user?.user?.username : "Account"}
                                                 </p>
                                             </div>
                                         </div>
@@ -147,17 +147,17 @@ export default function NavigationBar() {
                                         </DropdownMenuLabel>
                                         <DropdownMenuSeparator />
 
-                                        <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-slate-100 rounded-md">
+                                        {/* <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-slate-100 rounded-md">
                                             View Account
-                                        </DropdownMenuItem>
+                                        </DropdownMenuItem> */}
 
                                         {state.user?.user?.super_user && <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-slate-100 rounded-md">
                                             <Link
-                                            href="/admin/dashboard"
-                                            target="_blank"
+                                                href="/admin/dashboard"
+                                                target="_blank"
                                             >
                                                 <button
-                                                
+
                                                 >
                                                     Admin Dashboard
                                                 </button>
@@ -168,7 +168,7 @@ export default function NavigationBar() {
 
                                         <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-red-50 text-red-600 font-medium rounded-md">
                                             <button
-                                            onClick={() => dispatch({ type: "LOGOUT" })}
+                                                onClick={() => dispatch({ type: "LOGOUT" })}
                                             >
                                                 Logout
                                             </button>
@@ -220,25 +220,35 @@ export default function NavigationBar() {
                             ))}
                         </div>
 
-                        <div className="flex flex-col space-y-4 pt-5 w-full max-w-[240px]">
-                            <button
-                                className="h-20 w-full py-3 text-sm font-bold uppercase rounded-full transition-all duration-300 border"
-                                style={{ color: colors.soft, borderColor: colors.soft }}
-                                onMouseOver={e => { e.currentTarget.style.borderColor = colors.pop; e.currentTarget.style.color = colors.pop; }}
-                                onMouseOut={e => { e.currentTarget.style.borderColor = colors.soft; e.currentTarget.style.color = colors.soft; }}
+                        <div className="flex flex-col space-y-4 pt-5 w-full max-w-[240px] h-[300px]">
+                            <Link
+                                href={{ pathname : `/pages/auth/signin` }}
                             >
-                                Login
-                            </button>
-                            <button
-                                className="h-20 w-full py-3 text-sm font-bold uppercase rounded-full transition-all duration-300 shadow-lg"
-                                style={{ backgroundColor: colors.pop, color: 'white' }}
-                                onMouseOver={e => e.currentTarget.style.backgroundColor = colors.soft}
-                                onMouseOut={e => e.currentTarget.style.backgroundColor = colors.pop}
+                                <button
+                                    className="h-15 w-full py-3 text-sm font-bold uppercase rounded-full transition-all duration-300 border"
+                                    style={{ color: colors.soft, borderColor: colors.soft }}
+                                    onMouseOver={e => { e.currentTarget.style.borderColor = colors.pop; e.currentTarget.style.color = colors.pop; }}
+                                    onMouseOut={e => { e.currentTarget.style.borderColor = colors.soft; e.currentTarget.style.color = colors.soft; }}
+                                    onClick={() => setIsOpen(false)}                 
+                                >
+                                    Login
+                                </button>
+                            </Link>
+                            <Link
+                                href={{ pathname : `/pages/auth/signup` }}
                             >
-                                <Link href="/pages/auth/signup">
-                                    Get Started
-                                </Link>
-                            </button>
+                                <button
+                                    className="h-15 w-full py-3 text-sm font-bold uppercase rounded-full transition-all duration-300 shadow-lg"
+                                    style={{ backgroundColor: colors.pop, color: 'white' }}
+                                    onMouseOver={e => e.currentTarget.style.backgroundColor = colors.soft}
+                                    onMouseOut={e => e.currentTarget.style.backgroundColor = colors.pop}
+                                    onClick={() => setIsOpen(false)}    
+                                >
+                                    <Link href="/pages/auth/signup">
+                                        Get Started
+                                    </Link>
+                                </button>
+                            </Link>
                         </div>
                     </div>
 
