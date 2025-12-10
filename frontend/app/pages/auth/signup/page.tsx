@@ -37,7 +37,7 @@ export default function SignUpPage() {
 
     const OnSubmit = async(values: z.infer<typeof UserSignUpSchema>) => {
         try{
-            const response = await axios.post("http://localhost:8000/users/signup/", values)
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}`, values)
             toast.success("Account created!")
             setTimeout(() => {
                 redirect("/pages/auth/signin")

@@ -21,11 +21,13 @@ import { tokenManager } from "@/lib/tokenCache"
 import { useUserAuth } from "@/lib/userDataContext"
 import { toast } from "react-hot-toast"
 import { redirect } from "next/navigation"
+import { Spinner } from "@/components/ui/spinner"
 
 export default function SignUpPage() {
 
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm<z.infer<typeof UserLoginSchema>>({
         resolver: zodResolver(UserLoginSchema),
@@ -40,10 +42,11 @@ export default function SignUpPage() {
     const OnSubmit = async(values: z.infer<typeof UserLoginSchema>) => {
         try{
             dispatch({type: "LOGIN_REQUEST"})
-            const login_response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_TEST}/users/signin/`, values, {
+            setLoading(true)
+            const login_response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}/users/signin/`, values, {
                 withCredentials: true
             })
-            const get_user_data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_TEST}/users/get-user/`, {
+            const get_user_data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}/users/get-user/`, {
                 headers: {
                     Authorization: `Bearer ${login_response.data.access}`
                 }
@@ -59,6 +62,7 @@ export default function SignUpPage() {
             }, 1500)
             dispatch({type: "LOGIN_SUCCESS", payload: new_user_data})
         }catch(error){
+            setLoading(false)
             toast.error(`Invalid account credentials`, {
                 icon: (
                     <div>
@@ -78,7 +82,6 @@ export default function SignUpPage() {
         }
     }
 
-    console.log(state)
 
 
     return (
@@ -181,6 +184,7 @@ export default function SignUpPage() {
                                 onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                                 type="submit"
                             >
+                               {loading && <Spinner />}
                                 Log in
                             </Button>
                             <div className="relative my-6">
