@@ -8,6 +8,7 @@ import { CustomCursor } from "@/app/components/customcursor";
 import { ScrollFadeIn } from "@/app/components/scrollanimation";
 import { colors } from "@/lib/colors";
 import { tokenManager } from "@/lib/tokenCache";
+import { Toaster } from "@/components/ui/sonner"
 
 export default function HomePage() {
     console.log(tokenManager.getRefreshToken())
