@@ -17,7 +17,6 @@ import { Mail, Lock, User, Eye, EyeOff, X } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import axios from  "axios"
-import { tokenManager } from "@/lib/tokenCache"
 import { useUserAuth } from "@/lib/userDataContext"
 import { toast } from "react-hot-toast"
 import { redirect } from "next/navigation"
@@ -28,6 +27,8 @@ export default function SignUpPage() {
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState<boolean>(false)
+    const {state, dispatch} = useUserAuth()
+
 
     const form = useForm<z.infer<typeof UserLoginSchema>>({
         resolver: zodResolver(UserLoginSchema),
@@ -37,7 +38,6 @@ export default function SignUpPage() {
         }
     })
 
-    const {state, dispatch} = useUserAuth()
 
     const OnSubmit = async(values: z.infer<typeof UserLoginSchema>) => {
         try{
