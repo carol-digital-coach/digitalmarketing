@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> upstream/main
 "use client"
 
 import { FC, createContext, useContext, ReactNode, useReducer, Dispatch, useEffect, useRef } from "react"
@@ -216,9 +211,4 @@ export const useCurrentUser = () => {
         error: state.error,
         isAuthenticated: !!state.user
     };
-<<<<<<< HEAD
 }
->>>>>>> upstream/dev
-=======
-}
->>>>>>> upstream/main
