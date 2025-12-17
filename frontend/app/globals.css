@@ -130,3 +130,12 @@
 *{
     overflow-x: hidden;
 }
+
+[data-sonner-toast] svg,
+[data-sonner-toast] img,
+.react-hot-toast svg {
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0 !important;
+  overflow: hidden !important;
+}

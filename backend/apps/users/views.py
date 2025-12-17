@@ -12,11 +12,11 @@ from . import (
 )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
+import pytz
 
 import json
 import requests
-
+from datetime import (datetime, timedelta)
 
 @decorators.api_view(["POST"])
 def create_user_account(request):
@@ -42,13 +42,20 @@ def create_user_account(request):
         
         
 @decorators.api_view(["GET"])
+@decorators.permission_classes([permissions.IsAuthenticated])
 def get_user(request):
     try:
-        users = models.PbUser.objects.all()
-        users_data = serialilzers.UserModelSerializer(users, many=True)
+        user = request.user.is_superuser
+        if user:
+            users = models.PbUser.objects.all()
+            users_data = serialilzers.UserModelSerializer(users, many=True)
+            return response.Response({
+                "users": users_data.data
+            }, status=status.HTTP_200_OK)
+            
         return response.Response({
-            "users": users_data.data
-        }, status=status.HTTP_200_OK)
+            "message": "Unauthorized"
+        }, status=status.HTTP_401_UNAUTHORIZED)
     except Exception as e:
         return response.Response({
             "message": "Users not found",
@@ -59,9 +66,14 @@ def get_user(request):
 class CustomTokenObatainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
+        user = request.user
         if response.status_code == status.HTTP_200_OK:
             access_token = response.data["access"] #type: ignore
             refresh_token = response.data["refresh"] #type: ignore
+            
+            # now = datetime.now(pytz.utc)
+            access_token_expiration = str(1800)
+            refresh_token_expiration = str(30480)
             
             response.set_cookie(
                 key="access_cookie",
@@ -81,6 +93,15 @@ class CustomTokenObatainPairView(TokenObtainPairView):
                 secure=True
             )
             
+            response.set_cookie(key="access_expire", value=access_token_expiration)
+            response.set_cookie(key="refresh_expire", value=refresh_token_expiration)
+            
+            response.data["cookie_expiration"] = { #type: ignore
+                "access_expire": access_token_expiration,
+                "refresh_expire" : refresh_token_expiration
+            }
+                    
+            print(response)
             
             
         # del response.data["access"]  #type: ignore
@@ -97,11 +118,24 @@ class CookieAuthentication(JWTAuthentication):
         
         validate_token = self.get_validated_token(access_token)
         return self.get_user(validate_token), validate_token
+    
+@decorators.api_view(["GET"])
+def get_cookies(request):
+    try:
+        cookie = request.COOKIES.get("refresh_cookie")
+        return response.Response({
+            "cookie": cookie
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return response.Response({
+            "message": str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
     
 @decorators.api_view(["GET"])
-@decorators.authentication_classes([CookieAuthentication])
+# @decorators.authentication_classes([CookieAuthentication])
 @decorators.permission_classes([permissions.IsAuthenticated])
 def get_authenticate_user(request):
     user = request.user
@@ -112,6 +146,7 @@ def get_authenticate_user(request):
                 "username" : user.username,
                 "email": user.email,
                 "super_user": user.is_superuser,
+                "avatar": user.user_avatar
             }
         }, status=status.HTTP_200_OK)
         

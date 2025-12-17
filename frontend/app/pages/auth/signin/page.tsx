@@ -13,16 +13,21 @@ import {
 import { Input } from "@/components/ui/input"
 import { UserSignUpSchema, UserLoginSchema } from "@/lib/zod"
 import { useState } from "react"
-import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, X } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import axios from  "axios"
 import { tokenManager } from "@/lib/tokenCache"
+import { useUserAuth } from "@/lib/userDataContext"
+import { toast } from "react-hot-toast"
+import { redirect } from "next/navigation"
+import { Spinner } from "@/components/ui/spinner"
 
 export default function SignUpPage() {
 
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm<z.infer<typeof UserLoginSchema>>({
         resolver: zodResolver(UserLoginSchema),
@@ -32,15 +37,51 @@ export default function SignUpPage() {
         }
     })
 
+    const {state, dispatch} = useUserAuth()
+
     const OnSubmit = async(values: z.infer<typeof UserLoginSchema>) => {
         try{
-            const login_response = await axios.post("http://localhost:8000/users/signin/", values)
-            console.log(login_response.data)
-            console.log(tokenManager.getAccessToken())
+            dispatch({type: "LOGIN_REQUEST"})
+            setLoading(true)
+            const login_response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}/users/signin/`, values, {
+                withCredentials: true
+            })
+            const get_user_data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}/users/get-user/`, {
+                headers: {
+                    Authorization: `Bearer ${login_response.data.access}`
+                }
+            })
+            const new_user_data = {
+                ...get_user_data.data,
+                ...login_response.data
+            }
+
+            toast.success("welcome back")
+            setTimeout(() => {
+                redirect("/home")
+            }, 1500)
+            dispatch({type: "LOGIN_SUCCESS", payload: new_user_data})
         }catch(error){
+            setLoading(false)
+            toast.error(`Invalid account credentials`, {
+                icon: (
+                    <div>
+                        <X size={15} className="text-white"/>
+                    </div>
+                ),
+                style: {
+                    background: "#ef4444",
+                    color: "#fff"
+                },
+                iconTheme: {
+                primary: "white",
+                secondary: "#ef4444",
+            },
+            })
             console.log(error)
         }
     }
+
 
 
     return (
@@ -143,6 +184,7 @@ export default function SignUpPage() {
                                 onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                                 type="submit"
                             >
+                               {loading && <Spinner />}
                                 Log in
                             </Button>
                             <div className="relative my-6">

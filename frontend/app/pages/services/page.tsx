@@ -14,11 +14,15 @@ import {
 } from "@/components/ui/dialog";
 import { RiWhatsappFill } from "react-icons/ri";
 import { FaPhoneVolume } from "react-icons/fa6";
-
+import axios from "axios"
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function ServicesPage() {
     const serviceCategories = [
@@ -90,7 +94,7 @@ export default function ServicesPage() {
         },
         {
             title: "High-Performance Ads Setup & Optimization",
-            icon: FileSearch, 
+            icon: FileSearch,
             mainDesc: "Build a powerful, authoritative online presence. This package provides the technical, content, and strategy support required to dominate organic search rankings.",
             items: [
                 "Technical Website Audit",
@@ -101,10 +105,23 @@ export default function ServicesPage() {
             ]
         }
     ];
+
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["services"],
+        queryFn: async () => {
+            const data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}services/`)
+            // console.log(data)
+            return data.data
+        }
+    })
+
+    // console.log(data?.data)
+
+
     return (
         <section id="services" className="py-24 min-h-screen overflow-hidden" style={{ backgroundColor: colors.base, color: 'white' }}>
             <div className="container mx-auto px-4 md:px-6 max-w-7xl overflow-hidden">
-                <ScrollFadeIn>
+                <ScrollFadeIn delay={200}>
                     <h1 className="uppercase tracking-widest text-6xl font-bold mb-3 block overflow-hidden">
                         Services
                     </h1>
@@ -116,126 +133,75 @@ export default function ServicesPage() {
                     </p>
                 </ScrollFadeIn>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 overflow-hidden">
-                    {serviceCategories.map((category, index) => (
-                        <ScrollFadeIn key={index} delay={index * 150} threshold={0.1}>
-                            <div className="p-8 rounded-md h-full flex flex-col transition-all duration-500 shadow-xl cursor-pointer"
-                                style={{ backgroundColor: colors.deep, border: `2px solid ${colors.deep}` }}
-                                onMouseOver={e => {
-                                    e.currentTarget.style.borderColor = colors.pop;
-                                    e.currentTarget.style.boxShadow = `0 10px 15px -3px ${colors.pop}50, 0 4px 6px -2px ${colors.pop}50`;
-                                }}
-                                onMouseOut={e => {
-                                    e.currentTarget.style.borderColor = colors.deep;
-                                    e.currentTarget.style.boxShadow = 'none';
-                                }}
-                            >
-                                <category.icon size={40} className="mb-6 flex-shrink-0" />
-                                <h3 className="text-2xl font-bold mb-3 text-white">{category.title}</h3>
-                                <p className="text-base mb-6 italic" >{category.mainDesc}</p>
-
-
-                                <div className="space-y-3 mt-auto mb-6">
-                                    <h4 className="text-sm uppercase font-semibold tracking-wider">What you get from this package:</h4>
-                                    {category.items.map((item, i) => (
-                                        <div key={i} className="flex items-start text-sm">
-                                            <CheckCircle size={16} className="mr-3 mt-0.5 flex-shrink-0" />
-                                            <span>{item}</span>
-                                        </div>
-                                    ))}
+                <div className="w-full container mx-auto px-4 py-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 overflow-hidden">
+                        {!data || isLoading ? (
+                            <>
+                                <div className="col-span-1 md:col-span-2 lg:col-span-3 flex flex-row gap-x-2 items-center mb-4">
+                                    <Spinner className="text-lg animate-spin" />
+                                    <p className="font-medium text-white">Getting Services please wait...</p>
                                 </div>
-                                <Dialog>
-                                    <DialogTrigger asChild>
-                                        <button
-                                            className="mt-auto w-full text-white text-lg font-bold py-3 rounded-sm transition-transform duration-300 hover:cursor-pointer hover:border-black hover:shadow-lg bg-[var(--site-black)]"
-                                        >
-                                            Get a Custom Package
-                                        </button>
-                                    </DialogTrigger>
-                                    <DialogContent
-                                        className="
-                                            sm:max-w-[455px] 
-                                            overflow-hidden 
-                                            lg:max-w-[80%] 
-                                            lg:min-h-[50%] 
-                                            bg-[var(--site-purple)] 
-                                            text-white 
-                                            border-[var(--site-light-pink)]
-                                        "
-                                    >
-                                        <DialogHeader className="text-center overflow-hidden">
-                                            <DialogTitle
-                                                className="overflow-hidden"
-                                            >{category.title}</DialogTitle>
-                                            <DialogDescription>
-                                                <p className="text-white overflow-hidden">
-                                                    {category.mainDesc}
-                                                </p>
-                                            </DialogDescription>
-                                        </DialogHeader>
 
-                                        <div>
-                                            <p className="text-xl font-bold mb-5">
-                                                Your Custom Service Package Includes:
-                                            </p>
-
-                                            <ul>
-                                                {category.items.map((service, idx) => (
-                                                    <li key={idx}>
-                                                        {idx + 1}. {service}
-                                                    </li>
-                                                ))}
-                                            </ul>
+                                {[0, 1, 2, 3, 4, 5].map((_, idx) => (
+                                    <div key={idx} className="flex flex-col w-full max-w-[500px] mx-auto rounded-xl p-4 shadow-sm">
+                                        <div className="flex flex-row items-center w-full space-x-4 mb-4">
+                                            <Skeleton className="h-12 w-12 rounded-md bg-[var(--site-purple)]/20 shrink-0" />
+                                            <div className="space-y-2 flex-1">
+                                                <Skeleton className="h-4 w-3/4 bg-[var(--site-purple)]/50" />
+                                                <Skeleton className="h-4 w-1/2 bg-[var(--site-purple)]/50" />
+                                            </div>
                                         </div>
 
-                                        <p className="text-xl font-bold mt-4 mb-3 text-center">
-                                            Ready for Your Tailored Quote?
-                                        </p>
+                                        <div className="w-full space-y-4">
+                                            <Skeleton className="h-[200px] w-full bg-[var(--site-purple)]/50 rounded-md" />
+                                            <Skeleton className="h-[40px] w-full bg-[var(--site-purple)]/50 rounded-md" />
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
+                        ) : (
+                            data?.data.map((category: any, index: any) => (
+                                <ScrollFadeIn key={index} delay={index * 100} threshold={0.1}>
+                                    <div
+                                        className="p-8 rounded-xl h-full flex flex-col transition-all duration-500 shadow-xl cursor-pointer border-2"
+                                        style={{
+                                            backgroundColor: colors.deep,
+                                            borderColor: colors.deep
+                                        }}
+                                        onMouseOver={e => {
+                                            e.currentTarget.style.borderColor = colors.pop;
+                                            e.currentTarget.style.boxShadow = `0 10px 15px -3px ${colors.pop}50`;
+                                        }}
+                                        onMouseOut={e => {
+                                            e.currentTarget.style.borderColor = colors.deep;
+                                            e.currentTarget.style.boxShadow = 'none';
+                                        }}
+                                    >
+                                        <h3 className="text-2xl font-bold mb-3 text-white">{category.title}</h3>
+                                        <p className="text-base mb-6 italic opacity-80">{category.short_description}</p>
 
-                                        <DialogFooter className="p-2 overflow-hidden flex flex-row justify-center align-center gap-3">
+                                        <div className="flex-grow space-y-3 mt-6 mb-6">
+                                            <h4 className="text-sm uppercase font-semibold tracking-wider text-white">
+                                                Package Includes:
+                                            </h4>
+                                            {category.keypoints.map((item: { title: string }, i: any) => (
+                                                <div key={i} className="flex items-start text-sm text-white">
+                                                    <CheckCircle size={16} className="mr-3 mt-0.5 flex-shrink-0" />
+                                                    <span>{item.title}</span>
+                                                </div>
+                                            ))}
+                                        </div>
 
-                                            <a
-                                                href="https://whatsapp.com/channel/0029VbBDurkFsn0nuZ64Vp3L"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                <Button
-                                                    type="button"
-                                                    className="overflow-hidden flex items-center gap-2 cursor-pointer bg-green-500 hover:bg-green-600 text-white"
-                                                >
-                                                    <RiWhatsappFill size={23} />
-                                                    <p className="font-bold ">Message to Get Quote</p>
-                                                </Button>
-                                            </a>
-
-                                            <Dialog>
-                                                <DialogTrigger asChild>
-                                                    <Button
-                                                        variant="outline"
-                                                        className="
-                                                            overflow-hidden 
-                                                            bg-[var(--site-pink)] 
-                                                            border-none 
-                                                            hover:bg-[var(--site-light-pink)] 
-                                                            cursor-pointer
-                                                            flex items-center gap-2
-                                                        "
-                                                    >
-                                                        <FaPhoneVolume size={23} />
-                                                        <p>Call to Discuss</p>
-                                                    </Button>
-                                                </DialogTrigger>
-                                                <DialogContent>
-                                                    <p className="text-center">+254704197466</p>
-                                                </DialogContent>
-                                            </Dialog>
-
-                                        </DialogFooter>
-                                    </DialogContent>
-                                </Dialog>
-                            </div>
-                        </ScrollFadeIn>
-                    ))}
+                                        <Link href={{pathname: "/pages/package", query: `requested_package=${category.id}`}}>
+                                            <button className="p-2 mt-auto w-full text-white text-lg font-bold py-3 rounded-md transition-all duration-300 bg-[var(--site-black)]  hover:shadow-sm hover:bg-[var(--site-pink)] hover:cursor-pointer">
+                                                Get {category.title.slice(0, 18)}...
+                                            </button>
+                                        </Link>
+                                    </div>
+                                </ScrollFadeIn>
+                            ))
+                        )}
+                    </div>
                 </div>
 
                 <ScrollFadeIn delay={900}>
