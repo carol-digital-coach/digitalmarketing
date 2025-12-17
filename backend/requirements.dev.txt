@@ -6,3 +6,4 @@ python-decouple
 requests
 djangorestframework-simplejwt[crypto]
 django-cors-headers
+pytz
