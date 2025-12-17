@@ -44,7 +44,6 @@ export function NavUser({
 }) {
     const { isMobile } = useSidebar()
     const { state, dispatch } = useUserAuth()
-    console.log(state.user?.user.username)
     return (
         <SidebarMenu className="text-lg">
             <SidebarMenuItem className="bg-[var(--site-purple)]">

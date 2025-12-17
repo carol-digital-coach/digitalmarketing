@@ -18,9 +18,9 @@ SECRET_KEY = 'django-insecure-you%k579m6^%c28=*wo==z3ospih73l*e4u@mpr6^^mwghgb+j
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "2ff6b79f1fba.ngrok-free.app",
     "localhost",
-    "127.0.0.1"
+    "127.0.0.1",
+    "digitalmarketingsite.onrender.com"
     ]
 
 
@@ -52,7 +52,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "https://digitalmarketingsite-vw7g.vercel.app"
 ]
 
 CORS_ALLOW_METHODS = (
@@ -106,6 +107,7 @@ AUTH_USER_MODEL = "users.PbUser"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 database_url = config("DATABASE_URL", default="")
+print(database_url)
 if database_url:
     DATABASES = {
         'default': dj_database_url.config(

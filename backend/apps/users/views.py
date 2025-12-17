@@ -66,7 +66,6 @@ def get_user(request):
 class CustomTokenObatainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-        user = request.user
         if response.status_code == status.HTTP_200_OK:
             access_token = response.data["access"] #type: ignore
             refresh_token = response.data["refresh"] #type: ignore
@@ -79,7 +78,7 @@ class CustomTokenObatainPairView(TokenObtainPairView):
                 key="access_cookie",
                 value=access_token,
                 httponly=True,
-                samesite="Lax",
+                samesite="None",
                 max_age=1800,
                 secure=True
             )
@@ -88,7 +87,7 @@ class CustomTokenObatainPairView(TokenObtainPairView):
                 key="refresh_cookie",
                 value=refresh_token,
                 httponly=True,
-                samesite="Lax",
+                samesite="None",
                 max_age=30480,
                 secure=True
             )

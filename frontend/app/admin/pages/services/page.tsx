@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Plus, Trash2, Save, X, Settings, Loader2, Info, List, DollarSign } from 'lucide-react';
 
-// --- Color Definitions (Dark Mode Palette) ---
 const colors = {
     background: '#180A0A',
     cardBg: '#1E1E1E',
@@ -40,7 +39,6 @@ const TextAreaField = ({ label, id, value, onChange, placeholder } : textArea) =
     </div>
 );
 
-// --- Main Component ---
 export default function AdminServiceCreator() {
     const [activeTab, setActiveTab] = useState('serviceInfo');
     const [formData, setFormData] = useState({
@@ -103,7 +101,6 @@ export default function AdminServiceCreator() {
         }, 1500);
     };
 
-    // Component for Tab 1: Service Information
     const ServiceInfoTab = () => (
         <>
             <h2 className="text-2xl font-bold mb-6 text-white">1. Core Details</h2>
@@ -123,7 +120,6 @@ export default function AdminServiceCreator() {
         </>
     );
 
-    // Component for Tab 2: Key Points Management
     const KeyPointsTab = () => (
         <>
             <h2 className="text-2xl font-bold mb-6" style={{ color: colors.highlight }}>2. Methodology Key Points</h2>
@@ -161,7 +157,6 @@ export default function AdminServiceCreator() {
         </>
     );
 
-    // Component for Tab 3: Pricing Details
     const PricingTab = () => (
         <>
             <h2 className="text-2xl font-bold mb-6" style={{ color: colors.highlight }}>3. Package Details</h2>

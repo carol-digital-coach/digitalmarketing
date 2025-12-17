@@ -31,7 +31,6 @@ import {
 
 
 
-
 export default function NavigationBar() {
     const [isOpen, setIsOpen] = useState(false);
     const current_path = usePathname()
@@ -59,15 +58,9 @@ export default function NavigationBar() {
                                 <a
                                     key={item.name}
                                     href={item.href}
-<<<<<<< HEAD
-                                    className={current_path == item.href ? 
-                                        "text-sm font-medium uppercase  tracking-widest text-[var(--site-pink)] relative group transition-colors p-2 overflow-y-hidden hover:text-[var(--site-pink)]" 
-                                        : 
-=======
                                     className={current_path == item.href ?
                                         "text-sm font-medium uppercase  tracking-widest text-[var(--site-pink)] relative group transition-colors p-2 overflow-y-hidden hover:text-[var(--site-pink)]"
                                         :
->>>>>>> upstream/dev
                                         "text-sm font-medium uppercase  tracking-widest text-white relative group transition-colors p-2 overflow-y-hidden hover:text-[var(--site-pink)]"}
                                 >
                                     {item.name}
@@ -83,16 +76,6 @@ export default function NavigationBar() {
                         </div>
                         <div className="flex items-center space-x-4">
 
-<<<<<<< HEAD
-                            <button className="hidden px-6 py-2 text-sm font-bold uppercase rounded-sm transition-all duration-300 shadow-lg cursor-pointer"
-                                style={{ backgroundColor: colors.pop, color: 'white' }}
-                                onMouseOver={e => e.currentTarget.style.backgroundColor = colors.soft}
-                                onMouseOut={e => e.currentTarget.style.backgroundColor = colors.pop}
-                                // onClick={() => router.push("/pages/auth/signup")}
-                            >
-                                <Link href="/pages/auth/signup" passHref>
-                                        Get Started
-=======
                             {!state.user ?
                                 <Link href="/pages/auth/signin" passHref>
                                     <button className="px-6 py-2 text-sm font-bold uppercase rounded-sm transition-all duration-300 shadow-lg cursor-pointer"
@@ -103,7 +86,6 @@ export default function NavigationBar() {
                                     >
                                         Login
                                     </button>
->>>>>>> upstream/dev
                                 </Link>
                                 :
                                 <DropdownMenu modal={false}>
@@ -165,9 +147,9 @@ export default function NavigationBar() {
                                         </DropdownMenuLabel>
                                         <DropdownMenuSeparator />
 
-                                        <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-slate-100 rounded-md">
+                                        {/* <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-slate-100 rounded-md">
                                             View Account
-                                        </DropdownMenuItem>
+                                        </DropdownMenuItem> */}
 
                                         {state.user?.user?.super_user && <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-slate-100 rounded-md">
                                             <Link
@@ -212,9 +194,6 @@ export default function NavigationBar() {
                         )}
                         style={{ backgroundColor: colors.base }}
                     >
-<<<<<<< HEAD
-                        <div className="flex justify-end w-full mb-2 p-4 overflow-hidden">
-=======
                         <div className="flex justify-between items-center w-full p-4">
                             {/* Left side - User profile dropdown */}
                             <div className={!state.user ? "hidden" : "relative"}>
@@ -296,7 +275,6 @@ export default function NavigationBar() {
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>
->>>>>>> upstream/dev
                             <button
                                 onClick={() => setIsOpen(false)}
                                 className="h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center ml-auto"
@@ -322,27 +300,6 @@ export default function NavigationBar() {
                             ))}
                         </div>
 
-<<<<<<< HEAD
-                        <div className="flex flex-col space-y-4 pt-5 w-full max-w-[240px]">
-                            <button
-                                className="h-20 w-full py-3 text-sm font-bold uppercase rounded-full transition-all duration-300 border"
-                                style={{ color: colors.soft, borderColor: colors.soft }}
-                                onMouseOver={e => { e.currentTarget.style.borderColor = colors.pop; e.currentTarget.style.color = colors.pop; }}
-                                onMouseOut={e => { e.currentTarget.style.borderColor = colors.soft; e.currentTarget.style.color = colors.soft; }}
-                            >
-                                Login
-                            </button>
-                            <button
-                                className="h-20 w-full py-3 text-sm font-bold uppercase rounded-full transition-all duration-300 shadow-lg"
-                                style={{ backgroundColor: colors.pop, color: 'white' }}
-                                onMouseOver={e => e.currentTarget.style.backgroundColor = colors.soft}
-                                onMouseOut={e => e.currentTarget.style.backgroundColor = colors.pop}
-                            >
-                                <Link href="/pages/auth/signup">
-                                    Get Started
-                                </Link>
-                            </button>
-=======
                         <div className="flex flex-col space-y-4 pt-5 w-full max-w-[240px] h-[300px]">
                             {state.user ?
                                 <button
@@ -427,7 +384,6 @@ export default function NavigationBar() {
                                     </Link>
                                 </div>
                             }
->>>>>>> upstream/dev
                         </div>
                     </div>
 
