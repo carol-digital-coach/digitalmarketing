@@ -214,11 +214,12 @@ export default function ServicesPage() {
                         <p className="text-lg mb-8 font-medium">
                             Book a consultation today and start your journey with Carol the Digital Coach.
                         </p>
-                        <a href="#contact"
-                            className="inline-block px-8 py-3 bg-white text-lg font-bold rounded-sm transition-all duration-300 transform shadow-lg hover:bg-black hover:text-white"
+                        <Button
+                            className="inline-block p-4 bg-white text-lg text-black font-bold h-15"
+                            disabled={true}
                         >
                             Book a Consultation
-                        </a>
+                        </Button>
                     </div>
                 </ScrollFadeIn>
             </div>
