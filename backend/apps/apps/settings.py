@@ -3,6 +3,8 @@ from decouple import config
 from datetime import timedelta
 import dj_database_url
 import os
+from corsheaders.defaults import default_headers
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +22,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "digitalmarketingsite.onrender.com"
+    "digitalmarketingsite.onrender.com",
+    "460cab4ea284.ngrok-free.app"
     ]
 
 
@@ -56,6 +59,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://digitalmarketingsite-vw7g.vercel.app"
 ]
 
+
 CORS_ALLOW_METHODS = (
     "DELETE",
     "GET",
@@ -67,9 +71,6 @@ CORS_ALLOW_METHODS = (
 
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://2ff6b79f1fba.ngrok-free.app/"
-]
 
 ROOT_URLCONF = 'apps.urls'
 
