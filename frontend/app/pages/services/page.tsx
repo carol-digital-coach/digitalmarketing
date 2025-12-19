@@ -23,16 +23,10 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
+import { useServices } from "@/hooks/services";
 
 export default function ServicesPage() {
-    const { data, isLoading, error } = useQuery({
-        queryKey: ["services"],
-        queryFn: async () => {
-            const data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}services/`)
-            // console.log(data)
-            return data.data
-        }
-    })
+    const { data, isLoading, error } = useServices()
 
 
 
