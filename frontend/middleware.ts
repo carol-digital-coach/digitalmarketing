@@ -14,10 +14,13 @@ export async function middleware(request: NextRequest) {
 
 
     if (url.pathname.startsWith("/admin/dashboard")) {
-        if (!cookie_value) {
-            url.pathname = "/pages/auth/signin";
-            return NextResponse.redirect(url);
-        }
+
+        let is_admin;
+
+        // if (!cookie_value) {
+        //     url.pathname = "/pages/auth/signin";
+        //     return NextResponse.redirect(url);
+        // }
         
         try {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}users/get-user/`, {
@@ -26,6 +29,10 @@ export async function middleware(request: NextRequest) {
                     Authorization: `Bearer ${cookie_value}`
                 }
             });
+
+            is_admin = response.data.user?.super_user;
+            console.log("is admin", is_admin)
+
             if (!response.data.user.super_user) {
                 return NextResponse.redirect(new URL('/home', request.url));
             }

@@ -25,87 +25,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 
 export default function ServicesPage() {
-    const serviceCategories = [
-        {
-            title: "Digital Strategy & Planning",
-            icon: Target,
-            mainDesc: "Build a clear, actionable roadmap for your sustained online growth.",
-            items: [
-                "Online Business Strategy: Step-by-step guidance to start or grow your online business.",
-                "Digital Roadmap Creation: Plan content, ads, and growth strategies for 3–6 months.",
-                "Brand Positioning: Define your unique value proposition and niche online.",
-                "Market & Competitor Analysis: Learn how to stand out and attract the right audience.",
-            ],
-        },
-        {
-            title: "Paid Advertising & Campaigns",
-            icon: Megaphone,
-            mainDesc: "Run highly optimized ads that convert efficiently and maximize your return on investment (ROI).",
-            items: [
-                "Meta Ads Campaigns: Comprehensive Facebook & Instagram ad strategy, setup, and optimization.",
-                "Ad Performance Tracking: Monitor critical metrics like CTR, conversions, and true ROI.",
-                "Retargeting & Funnel Ads: Implement strategies to turn warm visitors into paying clients.",
-                "Budget & Bid Strategy Guidance: Optimize ad spend for maximum results.",
-            ],
-        },
-        {
-            title: "SEO & Online Visibility",
-            icon: Search,
-            mainDesc: "Get discovered by your ideal audience organically and establish a strong online presence.",
-            items: [
-                "SEO Consultation: Expert on-page and off-page guidance for better search engine ranking.",
-                "Keyword Research & Planning: Target profitable, high-intent search terms.",
-                "Website Optimization Guidance: Improve site structure, speed, and overall user experience.",
-                "Content SEO Strategy: Create high-value, SEO-friendly content that reliably converts visitors.",
-            ],
-        },
-        {
-            title: "Content Coaching & Creation",
-            icon: Feather,
-            mainDesc: "Master the art of creating content that truly engages your audience and drives business growth.",
-            items: [
-                "Content Strategy: Plan the what, when, and how for maximum impact across channels.",
-                "Content Creation Coaching: Guidance for blogs, social posts, emails, and compelling captions.",
-                "Visual Content Guidance: Practical tips for creating professional graphics and visuals.",
-                "Content Repurposing: Turn one foundational piece of content into multiple formats to save time and increase reach.",
-            ],
-        },
-        {
-            title: "One-on-One Coaching & Mentorship",
-            icon: Users,
-            mainDesc: "Personalized, direct guidance designed to accelerate your skills and overall online success.",
-            items: [
-                "Freelancing Skills Coaching: Learn how to find, pitch, and successfully secure high-paying clients online.",
-                "Personal Branding Mentorship: Strategically build your authority and influence within your industry.",
-                "Social Media Growth Coaching: Proven strategies to increase followers and engagement rates.",
-                "Digital Skills Training: Practical, hands-on training in SEO, content creation, ads, and strategy implementation.",
-            ],
-        },
-        {
-            title: "Social Media & Community Management",
-            icon: MessageSquare,
-            mainDesc: "Cultivate your online presence, foster an engaged community, and drive organic reach.",
-            items: [
-                "Social Media Audits: Identify current performance gaps and lucrative opportunities for growth.",
-                "Posting & Scheduling Guidance: Optimize posting frequency and timing for peak engagement.",
-                "Engagement & Community Growth: Actionable tips to grow an active, loyal follower base.",
-                "Analytics & Performance Tracking: Utilize insights to continuously refine and improve your results.",
-            ],
-        },
-        {
-            title: "High-Performance Ads Setup & Optimization",
-            icon: FileSearch,
-            mainDesc: "Build a powerful, authoritative online presence. This package provides the technical, content, and strategy support required to dominate organic search rankings.",
-            items: [
-                "Technical Website Audit",
-                "Comprehensive Keyword Strategy",
-                "In-Depth Competitor Analysis",
-                "Customized Content Strategy Guide",
-                "Actionable SEO Implementation Roadmap"
-            ]
-        }
-    ];
-
     const { data, isLoading, error } = useQuery({
         queryKey: ["services"],
         queryFn: async () => {
@@ -115,7 +34,6 @@ export default function ServicesPage() {
         }
     })
 
-    // console.log(data?.data)
 
 
     return (
@@ -192,7 +110,7 @@ export default function ServicesPage() {
                                             ))}
                                         </div>
 
-                                        <Link href={{pathname: "/pages/package", query: `requested_package=${category.id}`}}>
+                                        <Link href={{ pathname: "/pages/package", query: `requested_package=${category.id}` }}>
                                             <button className="p-2 mt-auto w-full text-white text-lg font-bold py-3 rounded-md transition-all duration-300 bg-[var(--site-black)]  hover:shadow-sm hover:bg-[var(--site-pink)] hover:cursor-pointer">
                                                 Get {category.title.slice(0, 18)}...
                                             </button>
