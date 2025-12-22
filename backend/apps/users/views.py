@@ -80,7 +80,8 @@ class CustomTokenObatainPairView(TokenObtainPairView):
                 httponly=True,
                 samesite="None",
                 max_age=1800,
-                secure=True
+                secure=True,
+                path="/"
             )
             
             response.set_cookie(
@@ -89,10 +90,11 @@ class CustomTokenObatainPairView(TokenObtainPairView):
                 httponly=True,
                 samesite="None",
                 max_age=30480,
-                secure=True
+                secure=True,
+                path="/"
             )
             
-            response.set_cookie(key="access_expire", value=access_token_expiration)
+            response.set_cookie(key="access_expire", value=access_token_expiration) 
             response.set_cookie(key="refresh_expire", value=refresh_token_expiration)
             
             response.data["cookie_expiration"] = { #type: ignore

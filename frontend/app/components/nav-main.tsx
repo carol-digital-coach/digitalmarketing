@@ -59,10 +59,10 @@ export function NavMain({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton 
-                      asChild className="hover:bg-[var(--site-purple)]"
+                      asChild className={pathname == subItem.url ? "bg-[var(--site-purple)] hover:text-black hover:bg-[var(--site-purple)]" : "hover:bg-[var(--site-purple)]"}
                       >
                         <p onClick={() => router.push(subItem.url)}>
-                          <span className="text-white hover:text-black ">{subItem.title}</span>
+                          <span className="text-white hover:text-white cursor-pointer">{subItem.title}</span>
                         </p>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>

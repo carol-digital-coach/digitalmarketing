@@ -1,16 +1,18 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUserAuth } from "@/lib/userDataContext";
 import { User, Activity, ShoppingCart, BookOpen } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import axios from "axios"
 
 interface UserDetails {
-  username: string;
+    username: string;
 }
 
 interface AuthState {
-  user: {
-    user: UserDetails;
-  } | "";
+    user: {
+        user: UserDetails;
+    } | "";
 }
 
 interface DashboardStats {
@@ -35,9 +37,23 @@ interface StatCardProps {
     colorClass: string;
 }
 
+interface Services {
+    id: string,
+    title: string,
+    short_description: string,
+    keypoints: Array<{
+        id: string,
+        title: string,
+        service: string
+    }>
+}
+
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, colorClass }) => (
-    <div className="bg-white p-5  border border-gray-100 overflow-hidden">
+    <div className="relative bg-white p-5  border border-gray-100 overflow-hidden hover:bg-[var(--site-black)]/30">
+        <p className='absolute top-22 left-10 text-lg text-black hover:block cursor-pointer'>
+            Click to view {title.split(" ")[1]}
+        </p>
         <div className="flex justify-between items-start p-2">
             <div>
                 <p className="text-sm font-medium text-black">{title}</p>
@@ -51,15 +67,30 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, colorClas
 );
 
 
-export default function AdminDashboard(){
+export default function AdminDashboard() {
 
-    const { state } = useUserAuth(); 
+    const { state } = useUserAuth();
     const userName: string = state.user?.user?.username || 'Admin';
+    const bearer_token = state.user?.access
+    const [services, setServices] = useState<Array<Services> | []>([])
 
-    return(
-        <div className="flex-1 p-6 md:p-10 min-h-screen bg-gray-50"> 
+
+    useEffect(() => {
+        const get_dashboard_data = async () => {
+            const [services] = await Promise.all([
+                axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}services/`),
+            ])
+            setServices(services.data?.data)
+
+        }
+        get_dashboard_data()
+    }, [])
+
+
+    return (
+        <div className="flex-1 p-6 md:p-10 min-h-screen bg-gray-50">
             <div className="max-w-7xl mx-auto">
-                
+
                 <header className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-900">
                         👋 Weclome {userName} !
@@ -68,55 +99,38 @@ export default function AdminDashboard(){
 
                 <h2 className="text-xl font-semibold text-gray-800 mb-4">Key Metrics</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 overflow-hidden">
-                    <StatCard 
-                        title="Total Users" 
-                        value={mockStats.totalUsers.toLocaleString()} 
-                        icon={User} 
+                    <StatCard
+                        title="Total Users"
+                        value={mockStats.totalUsers.toLocaleString()}
+                        icon={User}
                         colorClass="bg-indigo-500"
                     />
-                    <StatCard 
-                        title="Total Courses" 
-                        value={mockStats.totalCourses} 
-                        icon={BookOpen} 
+                    <StatCard
+                        title="Total Courses"
+                        value={mockStats.totalCourses}
+                        icon={BookOpen}
                         colorClass="bg-green-500"
                     />
-                    <StatCard 
-                        title="Total Services" 
-                        value={mockStats.totalServices} 
-                        icon={ShoppingCart} 
+                    <StatCard
+                        title="Total Services"
+                        value={services.length || 0}
+                        icon={ShoppingCart}
                         colorClass="bg-red-500"
                     />
-                    <StatCard 
-                        title="Pending Orders" 
-                        value={mockStats.pendingOrders} 
-                        icon={Activity} 
+                    <StatCard
+                        title="Pending Orders"
+                        value={mockStats.pendingOrders}
+                        icon={Activity}
                         colorClass="bg-yellow-500"
                     />
                 </div>
-                
+
                 <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
 
 
-                    <div className="hidden lg:col-span-1 bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Recent System Log</h2>
-                        <ul className="space-y-4">
-                            <li className="flex items-center space-x-3">
-                                <div className="p-2 bg-blue-100 rounded-full text-blue-600"><User className="w-4 h-4"/></div>
-                                <p className="text-sm text-gray-700">**New User** 'JaneDoe' registered.</p>
-                            </li>
-                            <li className="flex items-center space-x-3">
-                                <div className="p-2 bg-red-100 rounded-full text-red-600"><ShoppingCart className="w-4 h-4"/></div>
-                                <p className="text-sm text-gray-700">**Order #1005** placed for 'React Course'.</p>
-                            </li>
-                            <li className="flex items-center space-x-3">
-                                <div className="p-2 bg-yellow-100 rounded-full text-yellow-600"><BookOpen className="w-4 h-4"/></div>
-                                <p className="text-sm text-gray-700">Course **Next.js Deep Dive** updated.</p>
-                            </li>
-                            <li className="flex items-center space-x-3">
-                                <div className="p-2 bg-green-100 rounded-full text-green-600"><Activity className="w-4 h-4"/></div>
-                                <p className="text-sm text-gray-700">Server backup **Completed**.</p>
-                            </li>
-                        </ul>
+                    <div className="lg:col-span-1 bg-white p-6">
+                        <h2 className="text-xl font-semibold text-gray-800 mb-4">New System Activities</h2>
+                        <li>None**</li>
                     </div>
                 </div>
             </div>
