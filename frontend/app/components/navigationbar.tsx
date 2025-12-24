@@ -14,7 +14,7 @@ const navigationItems = [
     { name: "Services", href: "/pages/services" },
     { name: "Courses", href: "/pages/courses" },
     { name: "About", href: "/pages/about" },
-    { name: "Blog", href: "/pages/blog" },
+    // { name: "Blog", href: "/pages/blog" },
     { name: "Contact", href: "/pages/contact" },
 ];
 import { X } from "lucide-react";
@@ -147,9 +147,9 @@ export default function NavigationBar() {
                                         </DropdownMenuLabel>
                                         <DropdownMenuSeparator />
 
-                                        <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-slate-100 rounded-md">
+                                        {/* <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-slate-100 rounded-md">
                                             View Account
-                                        </DropdownMenuItem>
+                                        </DropdownMenuItem> */}
 
                                         {state.user?.user?.super_user && <DropdownMenuItem className="cursor-pointer py-2 px-3 focus:bg-slate-100 rounded-md">
                                             <Link

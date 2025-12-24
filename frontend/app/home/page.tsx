@@ -10,7 +10,9 @@ import { CustomCursor } from "@/app/components/customcursor";
 import { ScrollFadeIn } from "@/app/components/scrollanimation";
 import { colors } from "@/lib/colors";
 import { tokenManager } from "@/lib/tokenCache";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
+import Link from "next/link";
+import { ContactPage } from "../pages/contact/page";
 
 export default function HomePage() {
     console.log(tokenManager.getRefreshToken())
@@ -70,11 +72,15 @@ export default function HomePage() {
                                 </ScrollFadeIn>
 
                                 <ScrollFadeIn delay={400} className="mt-12">
-                                    <button
-                                        className="px-8 py-3 text-lg font-bold uppercase rounded-md hover:cursor-pointer bg-[var(--site-black)] border-3 border-[var(--site-black)] hover:bg-transparent hover:text-[var(--site-black)]"
+                                    <Link
+                                    href={{ pathname:"/pages/services" }}
                                     >
-                                        View Services <ArrowRight size={20} className="inline ml-2 text-siteBlack" />
-                                    </button>
+                                        <button
+                                            className="px-8 py-3 text-lg font-bold uppercase rounded-md hover:cursor-pointer bg-[var(--site-black)] border-3 border-[var(--site-black)] hover:bg-transparent hover:text-[var(--site-black)]"
+                                        >
+                                            View Services <ArrowRight size={20} className="inline ml-2 text-siteBlack" />
+                                        </button>
+                                    </Link>
                                 </ScrollFadeIn>
                             </div>
                         </div>
@@ -83,6 +89,7 @@ export default function HomePage() {
             </div>
             <AboutPage />
             <ServicesPage />
+            <ContactPage />
         </div>
     )
 }

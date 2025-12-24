@@ -43,10 +43,10 @@ export default function SignUpPage() {
         try{
             dispatch({type: "LOGIN_REQUEST"})
             setLoading(true)
-            const login_response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}/users/signin/`, values, {
+            const login_response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}users/signin/`, values, {
                 withCredentials: true
             })
-            const get_user_data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}/users/get-user/`, {
+            const get_user_data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL_LIVE}users/get-user/`, {
                 headers: {
                     Authorization: `Bearer ${login_response.data.access}`
                 }

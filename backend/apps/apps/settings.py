@@ -3,6 +3,8 @@ from decouple import config
 from datetime import timedelta
 import dj_database_url
 import os
+from corsheaders.defaults import default_headers
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -18,9 +20,10 @@ SECRET_KEY = 'django-insecure-you%k579m6^%c28=*wo==z3ospih73l*e4u@mpr6^^mwghgb+j
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "2ff6b79f1fba.ngrok-free.app",
     "localhost",
-    "127.0.0.1"
+    "127.0.0.1",
+    "digitalmarketingsite.onrender.com",
+    "460cab4ea284.ngrok-free.app"
     ]
 
 
@@ -52,8 +55,10 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "https://digitalmarketingsite-vw7g.vercel.app"
 ]
+
 
 CORS_ALLOW_METHODS = (
     "DELETE",
@@ -66,9 +71,6 @@ CORS_ALLOW_METHODS = (
 
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://2ff6b79f1fba.ngrok-free.app/"
-]
 
 ROOT_URLCONF = 'apps.urls'
 
@@ -106,6 +108,7 @@ AUTH_USER_MODEL = "users.PbUser"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 database_url = config("DATABASE_URL", default="")
+print(database_url)
 if database_url:
     DATABASES = {
         'default': dj_database_url.config(

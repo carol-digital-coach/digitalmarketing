@@ -128,7 +128,6 @@ const data = {
 export const AppSidebar: FC<{ children: ReactNode }> = ({ children }) => {
 
     const [isOpen, setIsOpened] = React.useState<boolean>(true)
-    console.log(isOpen)
 
     return (
         <div className="relative">

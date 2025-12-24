@@ -14,6 +14,7 @@ export async function middleware(request: NextRequest) {
 
 
     if (url.pathname.startsWith("/admin/dashboard")) {
+
         if (!cookie_value) {
             url.pathname = "/pages/auth/signin";
             return NextResponse.redirect(url);
@@ -26,6 +27,7 @@ export async function middleware(request: NextRequest) {
                     Authorization: `Bearer ${cookie_value}`
                 }
             });
+
             if (!response.data.user.super_user) {
                 return NextResponse.redirect(new URL('/home', request.url));
             }

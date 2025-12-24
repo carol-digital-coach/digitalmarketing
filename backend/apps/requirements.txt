@@ -5,9 +5,6 @@ python-decouple
 requests
 djangorestframework-simplejwt[crypto]
 django-cors-headers
-<<<<<<< HEAD
-pytz
-=======
 psycopg2-binary
 gunicorn
->>>>>>> upstream/main
+pytz

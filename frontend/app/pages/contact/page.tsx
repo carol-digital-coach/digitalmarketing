@@ -2,6 +2,7 @@
 
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Mail, Phone, MapPin, Send, MessageSquare, ChevronDown, ChevronUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface FormData {
     name: string;
@@ -15,7 +16,7 @@ interface FAQItem {
     answer: string;
 }
 
-const ContactPage: React.FC = () => {
+export const ContactPage: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
         name: '',
         email: '',
@@ -50,7 +51,7 @@ const ContactPage: React.FC = () => {
     };
 
     return (
-        <div className="mt-10 min-h-screen bg-[#180A0A] text-white font-sans selection:bg-[#F10086]">
+        <div className="min-h-screen bg-[#180A0A] text-white font-sans selection:bg-[#F10086]">
             <div className="max-w-7xl mx-auto py-20 px-6">
 
                 <header className="text-center mb-20 p-4">
@@ -87,7 +88,7 @@ const ContactPage: React.FC = () => {
                                     <MessageSquare size={28} className="text-white" />
                                 </div>
                                 <div>
-                                    <h4 className="text-[#F582A7] text-sm font-bold uppercase tracking-tighter">Office Hours</h4>
+                                    <h4 className="text-[#F582A7] text-sm font-bold uppercase tracking-tighter">Work Hours</h4>
                                     <p className="text-2xl font-semibold">Mon — Fri, 7am - 8pm</p>
                                 </div>
                             </div>
@@ -179,12 +180,13 @@ const ContactPage: React.FC = () => {
                                 ></textarea>
                             </div>
 
-                            <button
+                            <Button
                                 type="submit"
-                                className="w-full bg-[var(--site-purple)] hover:bg-[var(--site-purple)]/50 text-white font-black py-5 rounded-xl flex items-center justify-center gap-2 hover:cursor-pointer"
+                                className="w-full h-16 bg-[var(--site-purple)] hover:bg-[var(--site-purple)]/50 text-white font-black py-5 rounded-xl flex items-center justify-center gap-2 hover:cursor-pointer"
+                                disabled={true}
                             >
                                 BOOK MY DISCOVERY CALL <Send size={20} />
-                            </button>
+                            </Button>
                         </form>
                     </div>
 

@@ -24,10 +24,10 @@ export const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4 text-white">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-gray-300 hover:text-[#F10086] transition-colors">Home</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-[#F10086] transition-colors">About</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-[#F10086] transition-colors">Services</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-[#F10086] transition-colors">Contact</a></li>
+              <li><a href="/" className="text-gray-300 hover:text-[#F10086] transition-colors">Home</a></li>
+              <li><a href="/pages/about" className="text-gray-300 hover:text-[#F10086] transition-colors">About</a></li>
+              <li><a href="/pages/services" className="text-gray-300 hover:text-[#F10086] transition-colors">Services</a></li>
+              <li><a href="/pages/contact" className="text-gray-300 hover:text-[#F10086] transition-colors">Contact</a></li>
             </ul>
           </div>
 
@@ -49,9 +49,9 @@ export const Footer = () => {
 
         <div className="pt-8 border-t border-[#711A75]">
           <div className="flex flex-col md:flex-row justify-between items-center text-sm text-white">
-            <p>&copy; {current_year.getFullYear()} Carol - The Digital Coach. All rights reserved 
-                <span className="underline cursor-pointer">
-                    <a href="https://www.linkedin.com/in/timothy-mutwiri-9900a2262/"> [ Developed by timothedev +254746964592 ]</a>
+            <p>&copy; {current_year.getFullYear()} Carol - The Digital Coach. All rights reserved.  
+                <span className="underline cursor-pointer ml-4">
+                    <a href="https://www.linkedin.com/in/timothy-mutwiri-9900a2262/"> Developed by timothy +254746964592</a>
                     </span></p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a href="#" className="hover:text-[#F582A7] transition-colors">Privacy Policy</a>
