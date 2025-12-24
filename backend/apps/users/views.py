@@ -154,4 +154,20 @@ def get_authenticate_user(request):
         "message" : "No user found, user unauthenticated"
     }, status=status.HTTP_400_BAD_REQUEST)
 
-
+@decorators.api_view(["GET"])
+def get_users(request):
+    try:
+        users = models.PbUser.objects.all()
+        users_data = serialilzers.UserModelSerializer(
+            users, many=True
+            )
+        
+        return response.Response({
+            "data": users_data.data,
+            "message": "users present"
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return response.Response({
+            "message": str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
