@@ -14,7 +14,7 @@ const navigationItems = [
     { name: "Services", href: "/pages/services" },
     { name: "Courses", href: "/pages/courses" },
     { name: "About", href: "/pages/about" },
-    { name: "Blog", href: "/pages/blog" },
+    // { name: "Blog", href: "/pages/blog" },
     { name: "Contact", href: "/pages/contact" },
 ];
 import { X } from "lucide-react";

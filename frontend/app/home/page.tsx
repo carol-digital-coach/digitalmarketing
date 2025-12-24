@@ -10,6 +10,7 @@ import { colors } from "@/lib/colors";
 import { tokenManager } from "@/lib/tokenCache";
 import { Toaster } from "@/components/ui/sonner";
 import Link from "next/link";
+import { ContactPage } from "../pages/contact/page";
 
 export default function HomePage() {
     return (
@@ -83,6 +84,7 @@ export default function HomePage() {
             </div>
             <AboutPage />
             <ServicesPage />
+            <ContactPage />
         </div>
     )
 }
